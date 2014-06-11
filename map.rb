@@ -8,7 +8,6 @@ class Map
 		@map = make_map
 		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
 		@floor = Gosu::Image.new(window, './data/gfx/floor.png', false)
-		@tile_size = 32
 
 		make_map
 	end
@@ -22,7 +21,6 @@ class Map
 	end
 
 	def make_map
-		@i = @j = 0
 		
 		@map = Array.new(@width) do |x|
 			Array.new(@height) do |y|
@@ -40,8 +38,8 @@ class Map
 	end
 
 	def create_room(room)
-		a = (room.x1...room.x2 + 1)
-		b = (room.y1...room.y2 + 1)
+		a = (room.x1 + 1...room.x2)
+		b = (room.y1 + 1...room.y2)
 
 		 a.each do |x|
 			b.each do |y|
@@ -55,9 +53,9 @@ class Map
 			@width.times do |x|
 				tile = @map[x][y]
 				if tile == Tiles::Wall
-					@wall.draw(x * 50 - 5, y * 50 - 5, 0)
+					@wall.draw(x * 32 - 3, y * 32 - 3, 0)
 				else
-					@floor.draw(x * 50 - 5, y * 50 - 5, 0)
+					@floor.draw(x * 32 - 3, y * 32 - 3, 0)
 				end
 			end
 		end

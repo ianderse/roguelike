@@ -3,14 +3,14 @@ require './map'
 require './player'
 require './tile'
 
-$map
+
 class GameWindow < Gosu::Window
 	def initialize
-		super(1600, 1200, false)
+		super(800, 600, false)
 
 		self.caption = "Map Generator"
 
-		@map = Map.new(100, 100, self)
+		@map = Map.new(300, 300, self)
 
 		@room1 = Rect.new(@window, 5, 5, 10, 15)
 		@room2 = Rect.new(@window, 20, 5, 10, 15)
@@ -38,13 +38,13 @@ class GameWindow < Gosu::Window
 			when Gosu::Button::KbEscape
 				self.close
 			when Gosu::Button::KbLeft
-				@player.move(-50,0)
+				@player.move(-32,0)
 			when Gosu::Button::KbRight
-				@player.move(50, 0)
+				@player.move(32, 0)
 			when Gosu::Button::KbUp
-				@player.move(0, -50)
+				@player.move(0, -32)
 			when Gosu::Button::KbDown
-				@player.move(0, 50)
+				@player.move(0, 32)
 			end
 		end
 end

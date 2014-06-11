@@ -5,7 +5,7 @@ class Player
 	def initialize(window, map)
 		@map = map
 		@image = Gosu::Image.new(window, './data/gfx/knight.png', false)
-		@x = @y = 300
+		@x = @y = 320
 	end
 
 	def draw
@@ -15,9 +15,11 @@ class Player
 	def move(x1, y1)
 		@x2 = @x + x1
 		@y2 = @y + y1
-		if @map.blocked?(5, 10) == false
+		if @map.blocked?(@x2, @y2) == false
 			@x += x1
 			@y += y1
 		end
+		puts @x1
+		puts @x2
 	end
 end
