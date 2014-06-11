@@ -1,5 +1,6 @@
 require 'gosu'
 require './map'
+require './player'
 
 class GameWindow < Gosu::Window
 	def initialize
@@ -7,13 +8,15 @@ class GameWindow < Gosu::Window
 
 		self.caption = "Map Generator"
 
+		@player = Player.new(self)
+
 		@map = Map.new(100, 100, self)
 
-		room1 = Rect.new(@window, 10, 10, 10, 15)
-		#room2 = Rect.new(@window, 50, 15, 10, 15)
+		room1 = Rect.new(@window, 5, 5, 10, 15)
+		room2 = Rect.new(@window, 20, 5, 10, 15)
 
 		@map.create_room(room1)
-		#@map.create_room(room2)
+		@map.create_room(room2)
 
 		
 	end
@@ -23,12 +26,21 @@ class GameWindow < Gosu::Window
 
 	def draw
 		@map.draw
+		@player.draw
 	end
 
 	def button_down(id)
 		case id
 			when Gosu::Button::KbEscape
 				self.close
+			when Gosu::Button::KbLeft
+				@player.x -= 50
+			when Gosu::Button::KbRight
+				@player.x += 50
+			when Gosu::Button::KbUp
+				@player.y -= 50
+			when Gosu::Button::KbDown
+				@player.y += 50
 			end
 		end
 end
