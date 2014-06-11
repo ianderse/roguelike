@@ -1,5 +1,3 @@
-require './tile'
-
 class Map
 	attr_accessor :width, :height
 
@@ -13,6 +11,14 @@ class Map
 		@tile_size = 32
 
 		make_map
+	end
+
+	def blocked?(x, y)
+		if @map[x][y] == Tiles::Wall
+			true
+		else
+			false
+		end
 	end
 
 	def make_map
