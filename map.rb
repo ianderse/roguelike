@@ -7,7 +7,7 @@ class Map
 		@width = width
 		@height = height
 		@window = window
-		@tiles = make_map
+		@map = make_map
 		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
 		@floor = Gosu::Image.new(window, './data/gfx/floor.png', false)
 		@tile_size = 32
@@ -15,37 +15,39 @@ class Map
 		make_map
 	end
 
-	def create_room(room)
-	end
-
 	def make_map
 		@i = @j = 0
 		
-		# @tiles = Array.new(@width) do |x|
-		# 	Array.new(@height) do |y|
-		# 		#if rand(100) < 50
-		# 		#	Tiles::Wall
-		# 		#else
-		# 			Tiles::Floor
-		# 		#end
-		# 	end
-		# end
-
-		return @map
+		@map = Array.new(@width) do |x|
+			Array.new(@height) do |y|
+				Tiles::Wall
+			end
+		end
 	end
 
 	def set_wall_tile(x, y, stat)
 		if stat == true
-			@tiles[x][y] = Tiles::Wall
+			@map[x][y] = Tiles::Wall
 		else
-			@tiles[x][y] = Tiles::Floor
+			@map[x][y] = Tiles::Floor
+		end
+	end
+
+	def create_room(room)
+		a = (room.x1...room.x2 + 1)
+		b = (room.y1...room.y2 + 1)
+
+		 a.each do |x|
+			b.each do |y|
+				@map[x][y] = Tiles::Floor
+			end
 		end
 	end
 
 	def draw
 		@height.times do |y|
 			@width.times do |x|
-				tile = @tiles[x][y]
+				tile = @map[x][y]
 				if tile == Tiles::Wall
 					@wall.draw(x * 50 - 5, y * 50 - 5, 0)
 				else
