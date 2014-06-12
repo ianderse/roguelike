@@ -8,25 +8,72 @@ class GameWindow < Gosu::Window
 	def initialize
 		super(1900, 1080, false)
 
-		self.caption = "Map Generator"
+		self.caption = "Ruby Roguelike"
 
-		@map = Map.new(100, 100, self)
+		map_width = 65
+		map_height = 40
 
-		@room1 = Rect.new(@window, 0, 0, 10, 15)
-		@room2 = Rect.new(@window, 15, 0, 10, 15)
+		room_max_size = 10
+		room_min_size = 6
+		max_rooms = 10
 
-		@map.create_room(@room1)
-		@map.create_room(@room2)
-		@map.create_h_tunnel(10, 16, 7)
-		#@map.create_v_tunnel(0, 10, 7)
+		player_x = player_y = 0
 
-		@player = Player.new(self, @map, 6, 6)
+		failed = false
 
-		@map.set_tile(6, 6, 'player')
+		@map = Map.new(map_width, map_height, self)
 
-		puts @room1.intersect(@room2)
+		rooms = Array.new(0)
 
-		
+		num_rooms = 0
+
+		(0..max_rooms).each do |r|
+			w = rand(room_min_size..room_max_size)
+			h = rand(room_min_size..room_max_size)
+			x = rand(0..map_width - w - 1)
+			y = rand(0..map_height - h - 1)
+
+			new_room = Rect.new(x, y, w, h)
+
+
+
+			rooms.each do |other_room|
+				if new_room.intersect(other_room) == true
+					failed = true
+					break
+				else
+					failed = false
+				end
+			end
+			puts failed
+			if failed == false
+				@map.create_room(new_room)
+				(new_x, new_y) = new_room.center
+
+				if num_rooms == 0
+					player_x = new_x
+					player_y = new_y
+				else
+					(prev_x, prev_y) = rooms[num_rooms-1].center
+
+					if rand(0..1) == 1
+						@map.create_h_tunnel(prev_x, new_x, prev_y)
+						@map.create_v_tunnel(prev_y, new_y, new_x)
+					else
+						@map.create_v_tunnel(prev_y, new_y, new_x)
+						@map.create_h_tunnel(prev_x, new_x, prev_y)
+					end
+				end
+				rooms << new_room
+				num_rooms += 1
+			else
+				puts "failed, sorry"
+			end
+
+		end
+
+		@player = Player.new(self, @map, player_x, player_y)
+		@map.set_tile(player_x, player_y, 'player')	
 	end
 
 	def update

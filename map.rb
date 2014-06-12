@@ -44,7 +44,7 @@ class Map
 		a = [x1, x2].min
 		b = [x1, x2].max 
 
-		(a...b).each do |x|
+		(a..b).each do |x|
 			@map[x][y] = Tiles::Floor
 
 		end
@@ -53,8 +53,7 @@ class Map
 	def create_v_tunnel(y1, y2, x)
 		a = [y1, y2].min
 		b = [y1, y2].max 
-		puts a
-		puts b
+
 		(a...b).each do |y|
 			@map[x][y] = Tiles::Floor
 
@@ -62,8 +61,8 @@ class Map
 	end
 
 	def create_room(room)
-		a = (room.x1 + 1...room.x2)
-		b = (room.y1 + 1...room.y2)
+		a = (room.x1 + 1..room.x2)
+		b = (room.y1 + 1..room.y2)
 
 		 a.each do |x|
 			b.each do |y|
