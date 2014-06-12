@@ -43,8 +43,7 @@ class Map
 	def create_h_tunnel(x1, x2, y)
 		a = [x1, x2].min
 		b = [x1, x2].max 
-		puts a
-		puts b
+
 		(a...b).each do |x|
 			@map[x][y] = Tiles::Floor
 

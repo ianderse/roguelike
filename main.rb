@@ -6,7 +6,7 @@ require './tile'
 
 class GameWindow < Gosu::Window
 	def initialize
-		super(800, 600, false)
+		super(1900, 1080, false)
 
 		self.caption = "Map Generator"
 
@@ -24,6 +24,8 @@ class GameWindow < Gosu::Window
 
 		@map.set_tile(6, 6, 'player')
 
+		puts @room1.intersect(@room2)
+
 		
 	end
 
@@ -32,7 +34,6 @@ class GameWindow < Gosu::Window
 
 	def draw
 		@map.draw
-		#@player.draw
 	end
 
 	def button_down(id)

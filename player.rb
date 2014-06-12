@@ -20,17 +20,10 @@ class Player
 		@y2 = (@y + y1)
 
 		if @map.blocked?(@x2, @y2) == false
-
 			@map.set_tile(@x, @y, 'floor')
-
 			@x = (@x + x1)
 			@y = (@y + y1)
-
 			@map.set_tile(@x, @y, 'player')
-
-			puts @x
-			puts @y
-
 		end
 	end
 end

@@ -13,4 +13,17 @@ class Rect
 		@x2 = x + w
 		@y2 = y + h
 	end
+
+	def center
+		@center_x = (self.x1 + self.x2) / 2
+		@center_y = (self.y1 + self.y2) / 2
+	end
+
+	def intersect(other)
+		if (self.x1 <= other.x2 and self.x2 >= other.x1 and
+			self.y1 <= other.y2 and self.y2 >= other.y2)
+			true
+		end
+		false
+	end
 end
