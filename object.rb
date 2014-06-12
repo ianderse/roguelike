@@ -1,16 +1,12 @@
-class Player < Object
-	
+class Object
+
+	attr_accessor :x, :y
+
 	def initialize(window, map, x, y)
 		@x = x
 		@y = y
-		@player_x_test = @player_x
-		@player_y_test = @player_y
 		@map = map
 	end
-
-	# def draw
-	# 	@image.draw(@x, @y, 0)
-	# end
 
 	def move(x1, y1)
 
@@ -25,4 +21,9 @@ class Player < Object
 		#add check to see if player walks off screen
 		end
 	end
+
+	def clear
+		@map.set_tile(@x, @y, 'floor')
+	end
+
 end

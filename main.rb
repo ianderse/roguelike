@@ -10,7 +10,7 @@ class GameWindow < Gosu::Window
 
 		self.caption = "Ruby Roguelike"
 
-		map_width = 65
+		map_width = 62
 		map_height = 40
 
 		room_max_size = 10
