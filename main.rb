@@ -10,17 +10,18 @@ class GameWindow < Gosu::Window
 
 		self.caption = "Map Generator"
 
-		@map = Map.new(300, 300, self)
+		@map = Map.new(100, 100, self)
 
-		@room1 = Rect.new(@window, 5, 5, 10, 15)
-		@room2 = Rect.new(@window, 20, 5, 10, 15)
+		@room1 = Rect.new(@window, 0, 0, 10, 15)
+		@room2 = Rect.new(@window, 15, 0, 10, 15)
 
 		@map.create_room(@room1)
 		@map.create_room(@room2)
+		@map.create_h_tunnel(10, 16, 7)
 
 		@player = Player.new(self, @map, 6, 6)
 
-		#@map.set_tile(6, 6, 'player')
+		@map.set_tile(6, 6, 'player')
 
 		
 	end
