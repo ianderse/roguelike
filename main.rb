@@ -18,9 +18,9 @@ class GameWindow < Gosu::Window
 		@map.create_room(@room1)
 		@map.create_room(@room2)
 
-		@player = Player.new(self, @map)
+		@player = Player.new(self, @map, 6, 6)
 
-		@map.set_wall_tile(5, 5, true)
+		#@map.set_tile(6, 6, 'player')
 
 		
 	end
@@ -30,7 +30,7 @@ class GameWindow < Gosu::Window
 
 	def draw
 		@map.draw
-		@player.draw
+		#@player.draw
 	end
 
 	def button_down(id)
@@ -38,13 +38,13 @@ class GameWindow < Gosu::Window
 			when Gosu::Button::KbEscape
 				self.close
 			when Gosu::Button::KbLeft
-				@player.move(-32,0)
+				@player.move(-1,0)
 			when Gosu::Button::KbRight
-				@player.move(32, 0)
+				@player.move(1, 0)
 			when Gosu::Button::KbUp
-				@player.move(0, -32)
+				@player.move(0, -1)
 			when Gosu::Button::KbDown
-				@player.move(0, 32)
+				@player.move(0, 1)
 			end
 		end
 end

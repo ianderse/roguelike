@@ -8,6 +8,7 @@ class Map
 		@map = make_map
 		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
 		@floor = Gosu::Image.new(window, './data/gfx/floor.png', false)
+		@player = Gosu::Image.new(window, './data/gfx/knight.png', false)
 
 		make_map
 	end
@@ -29,11 +30,13 @@ class Map
 		end
 	end
 
-	def set_wall_tile(x, y, stat)
-		if stat == true
+	def set_tile(x, y, stat)
+		if stat == 'wall'
 			@map[x][y] = Tiles::Wall
-		else
+		elsif stat == 'floor'
 			@map[x][y] = Tiles::Floor
+		elsif stat == 'player'
+			@map[x][y] = Tiles::Player
 		end
 	end
 
@@ -53,9 +56,11 @@ class Map
 			@width.times do |x|
 				tile = @map[x][y]
 				if tile == Tiles::Wall
-					@wall.draw(x * 32 - 3, y * 32 - 3, 0)
-				else
-					@floor.draw(x * 32 - 3, y * 32 - 3, 0)
+					@wall.draw(x * 31 - 5, y * 31 - 5, 0)
+				elsif tile == Tiles::Floor
+					@floor.draw(x * 31 - 5, y * 31 - 5, 0)
+				elsif tile == Tiles::Player
+					@player.draw(x * 31 - 5, y * 31 - 5, 1)
 				end
 			end
 		end

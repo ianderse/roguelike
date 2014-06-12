@@ -1,4 +1,5 @@
 module Tiles
+	Player = 2
 	Wall = 1
 	Floor = 0
 end
