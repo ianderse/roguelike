@@ -18,6 +18,7 @@ class GameWindow < Gosu::Window
 		@map.create_room(@room1)
 		@map.create_room(@room2)
 		@map.create_h_tunnel(10, 16, 7)
+		#@map.create_v_tunnel(0, 10, 7)
 
 		@player = Player.new(self, @map, 6, 6)
 

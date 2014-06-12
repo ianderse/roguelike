@@ -51,6 +51,17 @@ class Map
 		end
 	end
 
+	def create_v_tunnel(y1, y2, x)
+		a = [y1, y2].min
+		b = [y1, y2].max 
+		puts a
+		puts b
+		(a...b).each do |y|
+			@map[x][y] = Tiles::Floor
+
+		end
+	end
+
 	def create_room(room)
 		a = (room.x1 + 1...room.x2)
 		b = (room.y1 + 1...room.y2)
