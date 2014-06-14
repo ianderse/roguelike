@@ -45,7 +45,6 @@ class GameWindow < Gosu::Window
 					failed = false
 				end
 			end
-			puts failed
 			if failed == false
 				@map.create_room(new_room)
 				(new_x, new_y) = new_room.center
@@ -67,7 +66,6 @@ class GameWindow < Gosu::Window
 				rooms << new_room
 				num_rooms += 1
 			else
-				puts "failed, sorry"
 			end
 
 		end
@@ -95,6 +93,8 @@ class GameWindow < Gosu::Window
 				@player.move(0, -1)
 			when Gosu::Button::KbDown
 				@player.move(0, 1)
+			when Gosu::Button::KbSpace
+				@player.clear
 			end
 		end
 end
