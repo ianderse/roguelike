@@ -9,21 +9,18 @@ class GameWindow < Gosu::Window
 
 		self.caption = "Ruby Roguelike"
 
-
 		map_width = 61
 		map_height = 34
 
 		room_max_size = 10
 		room_min_size = 6
-		max_rooms = 10
+		max_rooms = 15
 
 		@map = Map.new(map_width, map_height, self)
 
 		@map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
 
 		@player = Player.new(self, @map, @map.player_x, @map.player_y)
-
-
 	end
 
 	def update
@@ -45,8 +42,6 @@ class GameWindow < Gosu::Window
 				@player.move(0, -1)
 			when Gosu::Button::KbDown
 				@player.move(0, 1)
-			when Gosu::Button::KbSpace
-				@player.clear
 			end
 		end
 end
