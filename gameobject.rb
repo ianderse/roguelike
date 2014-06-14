@@ -1,4 +1,4 @@
-class Object
+class GameObject
 
 	attr_accessor :x, :y
 
@@ -17,6 +17,7 @@ class Object
 			@map.set_tile(@x, @y, 'floor')
 			@x = (@x + x1)
 			@y = (@y + y1)
+			puts self
 			@map.set_tile(@x, @y, 'player')
 		#add check to see if player walks off screen
 		end
