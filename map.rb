@@ -5,7 +5,15 @@ class Map
 		@width = width
 		@height = height
 		@window = window
+
 		@map = init_map
+
+		@color_dark_wall = Gosu::Color.from_hsv(0,0,100)
+		@color_light_wall = Gosu::Color.from_hsv(130,110,50)
+		@color_dark_ground = Gosu::Color.from_hsv(50,50,150)
+		@color_light_ground = Gosu::Color.from_hsv(200, 180, 50)
+
+
 		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
 		@floor = Gosu::Image.new(window, './data/gfx/floor.png', false)
 		@player_tile = Gosu::Image.new(window, './data/gfx/knight.png', false)
@@ -69,6 +77,14 @@ class Map
 
 
 	def blocked?(x, y)
+		if @map[x][y] == Tiles::Wall
+			true
+		else
+			false
+		end
+	end
+
+	def blocked_sight?(x, y)
 		if @map[x][y] == Tiles::Wall
 			true
 		else
