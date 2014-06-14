@@ -8,7 +8,7 @@ class Player < GameObject
 	# 	@map = map
 	# end
 
-	def draw
-	 	@image.draw(@x, @y, 0)
-	end
+	#def draw
+	# 	@image.draw(@x, @y, 0)
+	#end
 end

@@ -2,10 +2,15 @@ class GameObject
 
 	attr_accessor :x, :y
 
-	def initialize(window, map, x, y)
+	def initialize(window, map, x, y, object_name)
 		@x = x
 		@y = y
 		@map = map
+		if object_name == 'player'
+			@image = $image_tiles[149]
+		elsif object_name == 'orc'
+			@image = $image_tiles[149]
+		end
 	end
 
 	def move(x1, y1)
