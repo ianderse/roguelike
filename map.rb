@@ -19,6 +19,14 @@ class Map
 		@player_tile = Gosu::Image.new(window, './data/gfx/knight.png', false)
 	end
 
+	def init_map	
+		@map = Array.new(@width) do |x|
+			Array.new(@height) do |y|
+				Tiles::Wall
+			end
+		end
+	end
+
 	def make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
 		
 		rooms = Array.new(0)
@@ -69,51 +77,8 @@ class Map
 				num_rooms += 1
 			else
 			end
-
 		end
-
 		set_tile(@player_x, @player_y, 'player')	
-	end
-
-
-	def blocked?(x, y)
-		if @map[x][y] == Tiles::Wall
-			true
-		else
-			false
-		end
-	end
-
-	def blocked_sight?(x, y)
-		if @map[x][y] == Tiles::Wall
-			true
-		else
-			false
-		end
-	end
-
-	def visible?(x, y)
-		#test to see if map tile is visible or not
-		#if @map[x][y] == 
-		true
-	end
-
-	def init_map	
-		@map = Array.new(@width) do |x|
-			Array.new(@height) do |y|
-				Tiles::Wall
-			end
-		end
-	end
-
-	def set_tile(x, y, stat)
-		if stat == 'wall'
-			@map[x][y] = Tiles::Wall
-		elsif stat == 'floor'
-			@map[x][y] = Tiles::Floor
-		elsif stat == 'player'
-			@map[x][y] = Tiles::Player
-		end
 	end
 
 	def create_h_tunnel(x1, x2, y)
@@ -144,6 +109,42 @@ class Map
 			b.each do |y|
 				@map[x][y] = Tiles::Floor
 			end
+		end
+	end
+
+	def explored(x,y)
+		#set tile to explored
+	end
+
+	def blocked?(x, y)
+		if @map[x][y] == Tiles::Wall
+			true
+		else
+			false
+		end
+	end
+
+	def blocked_sight?(x, y)
+		if @map[x][y] == Tiles::Wall
+			true
+		else
+			false
+		end
+	end
+
+	def visible?(x, y)
+		#test to see if map tile is visible or not
+		#if @map[x][y] == 
+		true
+	end
+
+	def set_tile(x, y, stat)
+		if stat == 'wall'
+			@map[x][y] = Tiles::Wall
+		elsif stat == 'floor'
+			@map[x][y] = Tiles::Floor
+		elsif stat == 'player'
+			@map[x][y] = Tiles::Player
 		end
 	end
 
