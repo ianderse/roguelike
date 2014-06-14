@@ -16,11 +16,13 @@ class GameWindow < Gosu::Window
 		room_min_size = 6
 		max_rooms = 15
 
+		$image_tiles = Gosu::Image.load_tiles(self, './data/gfx/fantasy-tileset.png', 32, 32, false)
+
 		@map = Map.new(map_width, map_height, self)
 
 		@map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
 
-		@player = Player.new(self, @map, @map.player_x, @map.player_y)
+		@player = Player.new(self, @map, @map.player_x, @map.player_y, 'player')
 	end
 
 	def update

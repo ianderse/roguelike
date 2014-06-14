@@ -8,15 +8,29 @@ class Map
 
 		@map = init_map
 
+		@max_room_monsters = 3
+
 		@color_dark_wall = Gosu::Color.rgba(0, 0, 100, 255)
 		@color_light_wall = Gosu::Color.rgba(130, 110, 50, 255)
 		@color_dark_ground = Gosu::Color.rgba(50,50,150, 255)
 		@color_light_ground = Gosu::Color.rgba(200, 180, 50, 255)
 
 
-		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
-		@floor = Gosu::Image.new(window, './data/gfx/floor.png', false)
-		@player_tile = Gosu::Image.new(window, './data/gfx/knight.png', false)
+		@wall = $image_tiles[18]
+		@floor = $image_tiles[19]
+		@player_tile = $image_tiles[149]
+	end
+
+	def place_objects(room)
+		num_monsters = rand(1..@max_room_monsters)
+		(1..@max_room_monsters).each do |i|
+			x = rand(room.x1..room.x2)
+			y = rand(room.y1..room.y2)
+		end
+
+		if rand(100) < 80
+			
+		end
 	end
 
 	def init_map	
@@ -162,11 +176,11 @@ class Map
 					if not visible?(x,y)
 						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_ground)
 					else
-						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_ground)
+						@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 					end
 				elsif tile == Tiles::Player
-					@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_ground)
-					@player_tile.draw(x * 31 - 5, y * 31 - 5, 1)
+					@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
+					@player_tile.draw(x * 31 - 5, y * 31 - 5, 1, 1, 1, color = @color_light_ground)
 				end
 			end
 		end
