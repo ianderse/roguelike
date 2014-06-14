@@ -1,17 +1,72 @@
 class Map
-	attr_accessor :width, :height
+	attr_accessor :width, :height, :player_x, :player_y
 
 	def initialize(width, height, window)
 		@width = width
 		@height = height
 		@window = window
-		@map = make_map
+		@map = init_map
 		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
 		@floor = Gosu::Image.new(window, './data/gfx/floor.png', false)
-		@player = Gosu::Image.new(window, './data/gfx/knight.png', false)
-
-		make_map
+		@player_tile = Gosu::Image.new(window, './data/gfx/knight.png', false)
 	end
+
+	def make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
+		
+		rooms = Array.new(0)
+
+		failed = false
+
+		num_rooms = 0
+
+		@player_x = @player_y = 0
+
+		(0..max_rooms).each do |r|
+			w = rand(room_min_size..room_max_size)
+			h = rand(room_min_size..room_max_size)
+			x = rand(0..map_width - w - 1)
+			y = rand(0..map_height - h - 1)
+
+			new_room = Rect.new(x, y, w, h)
+
+
+
+			rooms.each do |other_room|
+				if new_room.intersect(other_room) == true
+					failed = true
+					break
+				else
+					failed = false
+				end
+			end
+			if failed == false
+				create_room(new_room)
+				(new_x, new_y) = new_room.center
+
+				if num_rooms == 0
+					@player_x = new_x
+					@player_y = new_y
+				else
+					(prev_x, prev_y) = rooms[num_rooms-1].center
+
+					if rand(0..1) == 1
+						create_h_tunnel(prev_x, new_x, prev_y)
+						create_v_tunnel(prev_y, new_y, new_x)
+					else
+						create_v_tunnel(prev_y, new_y, new_x)
+						create_h_tunnel(prev_x, new_x, prev_y)
+					end
+				end
+				rooms << new_room
+				num_rooms += 1
+			else
+			end
+
+		end
+
+		set_tile(@player_x, @player_y, 'player')	
+	end
+
 
 	def blocked?(x, y)
 		if @map[x][y] == Tiles::Wall
@@ -21,8 +76,7 @@ class Map
 		end
 	end
 
-	def make_map
-		
+	def init_map	
 		@map = Array.new(@width) do |x|
 			Array.new(@height) do |y|
 				Tiles::Wall
@@ -80,7 +134,7 @@ class Map
 				elsif tile == Tiles::Floor
 					@floor.draw(x * 31 - 5, y * 31 - 5, 0)
 				elsif tile == Tiles::Player
-					@player.draw(x * 31 - 5, y * 31 - 5, 1)
+					@player_tile.draw(x * 31 - 5, y * 31 - 5, 1)
 				end
 			end
 		end

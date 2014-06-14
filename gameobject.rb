@@ -17,9 +17,9 @@ class GameObject
 			@map.set_tile(@x, @y, 'floor')
 			@x = (@x + x1)
 			@y = (@y + y1)
-			puts self
-			@map.set_tile(@x, @y, 'player')
-		#add check to see if player walks off screen
+			@map.set_tile(@x, @y, 'player') 
+			#will need to change how set_tile works, somehow adjust it to reading what object is being passed into it (self)
+			#add check to see if player walks off screen
 		end
 	end
 

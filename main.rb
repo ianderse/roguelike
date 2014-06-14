@@ -17,61 +17,13 @@ class GameWindow < Gosu::Window
 		room_min_size = 6
 		max_rooms = 10
 
-		player_x = player_y = 0
-
-		failed = false
-
 		@map = Map.new(map_width, map_height, self)
 
-		rooms = Array.new(0)
+		@map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
 
-		num_rooms = 0
-
-		(0..max_rooms).each do |r|
-			w = rand(room_min_size..room_max_size)
-			h = rand(room_min_size..room_max_size)
-			x = rand(0..map_width - w - 1)
-			y = rand(0..map_height - h - 1)
-
-			new_room = Rect.new(x, y, w, h)
+		@player = Player.new(self, @map, @map.player_x, @map.player_y)
 
 
-
-			rooms.each do |other_room|
-				if new_room.intersect(other_room) == true
-					failed = true
-					break
-				else
-					failed = false
-				end
-			end
-			if failed == false
-				@map.create_room(new_room)
-				(new_x, new_y) = new_room.center
-
-				if num_rooms == 0
-					player_x = new_x
-					player_y = new_y
-				else
-					(prev_x, prev_y) = rooms[num_rooms-1].center
-
-					if rand(0..1) == 1
-						@map.create_h_tunnel(prev_x, new_x, prev_y)
-						@map.create_v_tunnel(prev_y, new_y, new_x)
-					else
-						@map.create_v_tunnel(prev_y, new_y, new_x)
-						@map.create_h_tunnel(prev_x, new_x, prev_y)
-					end
-				end
-				rooms << new_room
-				num_rooms += 1
-			else
-			end
-
-		end
-
-		@player = Player.new(self, @map, player_x, player_y)
-		@map.set_tile(player_x, player_y, 'player')	
 	end
 
 	def update
