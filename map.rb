@@ -8,10 +8,10 @@ class Map
 
 		@map = init_map
 
-		@color_dark_wall = Gosu::Color.from_hsv(0,0,100)
-		@color_light_wall = Gosu::Color.from_hsv(130,110,50)
-		@color_dark_ground = Gosu::Color.from_hsv(50,50,150)
-		@color_light_ground = Gosu::Color.from_hsv(200, 180, 50)
+		@color_dark_wall = Gosu::Color.rgba(0, 0, 100, 255)
+		@color_light_wall = Gosu::Color.rgba(130, 110, 50, 255)
+		@color_dark_ground = Gosu::Color.rgba(50,50,150, 255)
+		@color_light_ground = Gosu::Color.rgba(200, 180, 50, 255)
 
 
 		@wall = Gosu::Image.new(window, './data/gfx/wall.png', false)
@@ -152,18 +152,19 @@ class Map
 			@width.times do |x|
 				tile = @map[x][y]
 				if tile == Tiles::Wall
-					if not self.visible?(x, y)
+					if not visible?(x, y)
 						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_wall)
 					else
 						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_wall)
 					end
 				elsif tile == Tiles::Floor
-					if not self.visible?(x,y)
+					if not visible?(x,y)
 						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_ground)
 					else
-						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_wall)
+						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_ground)
 					end
 				elsif tile == Tiles::Player
+					@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_ground)
 					@player_tile.draw(x * 31 - 5, y * 31 - 5, 1)
 				end
 			end
