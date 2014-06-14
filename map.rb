@@ -92,6 +92,11 @@ class Map
 		end
 	end
 
+	def visible?(x, y)
+		#test to see if map tile is visible or not
+		#if @map[x][y] == 
+	end
+
 	def init_map	
 		@map = Array.new(@width) do |x|
 			Array.new(@height) do |y|
@@ -146,7 +151,8 @@ class Map
 			@width.times do |x|
 				tile = @map[x][y]
 				if tile == Tiles::Wall
-					@wall.draw(x * 31 - 5, y * 31 - 5, 0)
+					if 
+					@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_wall)
 				elsif tile == Tiles::Floor
 					@floor.draw(x * 31 - 5, y * 31 - 5, 0)
 				elsif tile == Tiles::Player
