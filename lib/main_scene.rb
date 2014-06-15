@@ -13,9 +13,9 @@ class GameWindow < Gosu::Window
 		@room_min_size = 6
 		@max_rooms = 15
 
-		@white = Gosu::Color.new(255, 255, 255, 255)
-		@black = Gosu::Color.new(255, 0, 0, 0)
-		@red = Gosu::Color.new(200, 160, 0, 0)
+		$white = Gosu::Color.new(255, 255, 255, 255)
+		$black = Gosu::Color.new(255, 0, 0, 0)
+		$red = Gosu::Color.new(255, 160, 0, 0)
 
 		$image_tiles = Gosu::Image.load_tiles(self, './data/gfx/fantasy-tileset.png', 32, 32, false)
 		$monsters = []
@@ -28,19 +28,18 @@ class GameWindow < Gosu::Window
 	def update
 	end
 
-	def draw_bar(x, y, w, h, color1, color2, z=2, hp)
-		self.draw_quad(x, y, @white, x + w, y, @white, x, y + h, @white, x + w, y + h, @white, z)    
-		self.draw_quad(x + 1, y + 1, @black, x + w - 1, y + 1, @black, x + 1, y + h - 1, @black, x + w - 1, y + h - 1, @black, z)
+	def draw_bar(x, y, w, h, color1, color2, z=2, object)
+		self.draw_quad(x, y, $white, x + w, y, $white, x, y + h, $white, x + w, y + h, $white, z)    
+		self.draw_quad(x + 1, y + 1, $black, x + w - 1, y + 1, $black, x + 1, y + h - 1, $black, x + w - 1, y + h - 1, $black, z)
 		
-		hp = $player.hp
-		max_hp = $player.max_hp
+		hp = object.hp
+		max_hp = object.max_hp
 
 		pre = (hp*w)/100
 
 		length = (pre * 100) / max_hp
 
 		self.draw_quad(x + 1, y + 1, color2, x + length - 1, y + 1, color2, x + 1, y + h - 1, color2, x + length - 1, y + h - 1, color2, z)
-		@font.draw("HP: ", x - 50, y, 1, 1.25, 1.25, @red)
 	end
 
 	def reset_game
@@ -68,10 +67,9 @@ class GameWindow < Gosu::Window
 				$monsters.each do |i|
 					i.draw
 				end
-				
-
 			end
-			draw_bar($window_width/2 - 50, $window_height - 20, 200, 20, @white, @red, 2, 100)
+			draw_bar($window_width/2 - 50, $window_height - 20, 200, 20, $white, $red, 2, $player)
+			@font.draw("HP: ", $window_width/2 - 100, $window_height, 1, 1.25, 1.25, $red)
 		elsif $game_state == 'dead'
 			@font.draw("GAME OVER", $window_width/2 - 100, $window_height/2, 1, 2.0, 2.0, 0xffffff00)
 			@font.draw("Press 'space' to continue", $window_width/2 - 100, $window_height/2 + 30, 1, 2.0, 2.0, 0xffffff00)
@@ -90,8 +88,12 @@ class GameWindow < Gosu::Window
 				$player.move_or_attack(0, -1)
 			when Gosu::Button::KbDown
 				$player.move_or_attack(0, 1)
+			when Gosu::Button::Kb5
+				$player.rest
 			when Gosu::Button::KbSpace
-				reset_game
+				if $game_state == 'dead'
+					reset_game
+				end
 			end
 		end
 end

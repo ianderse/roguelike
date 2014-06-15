@@ -25,4 +25,14 @@ class Player < Creature
 			monster.take_turn
 		end
 	end
+
+	def rest
+		if self.hp < self.max_hp
+			self.hp += 1
+		end
+		
+		$monsters.each do |monster|
+			monster.take_turn
+		end
+	end
 end
