@@ -31,6 +31,8 @@ class GameWindow < Gosu::Window
 		@font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 	end
 
+	def needs_cursor?; true; end
+
 	def update
 	end
 
@@ -117,6 +119,15 @@ class GameWindow < Gosu::Window
 				if $game_state == 'dead'
 					reset_game
 				end
+			when Gosu::MsLeft
+				# $monsters.each do |monster|
+				# 	if Gosu::distance(monster.x * 12.8, -monster.y * 10.2, mouse_x, mouse_y) < 10
+				# 		puts monster.x * 12.8
+				# 		puts mouse_x
+				# 		message(monster.name)
+				# 	end
+				# end
+
 			end
 		end
 end
