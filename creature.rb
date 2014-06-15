@@ -6,6 +6,48 @@ class Creature < GameObject
 
 	def initialize(window, map, x, y, object_name, blocks=false, hp, strength, defense)
 		super(window, map, x, y, object_name, blocks=false)
+
+		@hp = hp
+		@defense = defense
+		@strength = strength
+	end
+
+	def dead?
+		if self.is_a?(Player)
+			if self.hp <= 0
+				true
+			end
+		else
+			$monsters.each do |monster|
+				if monster.hp <= 0
+					$monsters.delete(monster)
+					monster.clear
+					true
+				end
+			end
+		end
+	end
+
+	def take_damage(damage)
+		@damage = damage
+		if @damage > 0
+			@hp -= @damage
+		end
+		if dead?
+			puts name + ' is dead!'
+		end
+	end
+
+	def attack(target)
+		@damage = @strength - target.defense
+		
+
+		if @damage > 0
+			puts self.name + ' attacks ' + target.name + ' for ' + @damage.to_s + ' damage'
+			target.take_damage(@damage)
+		else
+			puts self.name + ' deals no damage!'
+		end
 	end
 
 	def distance_to(other)
@@ -24,8 +66,6 @@ class Creature < GameObject
 			@x = (@x + x)
 			@y = (@y + y)
 			$map.set_tile(@x, @y, 'monster') 
-			#will need to change how set_tile works, somehow adjust it to reading what object is being passed into it (self)
-			#add
 		end
 	end
 

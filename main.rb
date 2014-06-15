@@ -23,7 +23,7 @@ class GameWindow < Gosu::Window
 
 		$map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
 
-		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 30, 2, 5)
+		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 30, 10, 0)
 	end
 
 	def update

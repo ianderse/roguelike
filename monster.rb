@@ -1,7 +1,7 @@
 require './creature'
 
 class Monster < Creature
-	def initialize(window, map, x, y, object_name, blocks=false, hp, defense, strength)
+	def initialize(window, map, x, y, object_name, blocks=false, hp, strength, defense)
 		super
 		@x = x
 		@y = y
@@ -22,8 +22,8 @@ class Monster < Creature
 	def take_turn
 		if distance_to($player) >= 2
 			move_towards($player.x, $player.y)
-		else #elsif $player.hp > 0
-			puts 'The attack of the ' + name + ' bounces off your armor!'
+		elsif $player.hp > 0
+			attack($player)
 		end
 	end
 

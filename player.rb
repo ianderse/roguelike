@@ -11,7 +11,7 @@ class Player < Creature
 		
 		if @map.blocked?(@x2, @y2) && @map.attackable?(@x2, @y2)
 			target = @map.whats_there?(@x2, @y2)
-			puts "The " + target.name + " laughs at you"
+			attack(target)
 		elsif @map.blocked?(@x2, @y2) == false
 			@map.set_tile(@x, @y, 'floor')
 			@x = (@x + x1)
