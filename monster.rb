@@ -1,11 +1,10 @@
-require './gameobject.rb'
+require './creature'
 
-class Monster < GameObject
-	def initialize(window, map, x, y, object_name, blocks=false)
+class Monster < Creature
+	def initialize(window, map, x, y, object_name, blocks=false, hp, defense, strength)
 		super
 		@x = x
 		@y = y
-		@map = map
 
 		if object_name == 'bat'
 			@image = $image_tiles[162]
@@ -17,6 +16,14 @@ class Monster < GameObject
 			@image = $image_tiles[155]
 		else
 			#@image = $image_tiles[12]
+		end
+	end
+
+	def take_turn
+		if distance_to($player) >= 2
+			move_towards($player.x, $player.y)
+		else #elsif $player.hp > 0
+			puts 'The attack of the ' + name + ' bounces off your armor!'
 		end
 	end
 

@@ -19,18 +19,18 @@ class GameWindow < Gosu::Window
 		$image_tiles = Gosu::Image.load_tiles(self, './data/gfx/fantasy-tileset.png', 32, 32, false)
 		$monsters = []
 
-		@map = Map.new(map_width, map_height, self)
+		$map = Map.new(map_width, map_height, self)
 
-		@map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
+		$map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
 
-		@player = Player.new(self, @map, @map.player_x, @map.player_y, 'player')
+		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 30, 2, 5)
 	end
 
 	def update
 	end
 
 	def draw
-		@map.draw
+		$map.draw
 		$monsters.each do |i|
 			i.draw
 		end
@@ -41,13 +41,13 @@ class GameWindow < Gosu::Window
 			when Gosu::Button::KbEscape
 				self.close
 			when Gosu::Button::KbLeft
-				@player.move_or_attack(-1,0)
+				$player.move_or_attack(-1,0)
 			when Gosu::Button::KbRight
-				@player.move_or_attack(1, 0)
+				$player.move_or_attack(1, 0)
 			when Gosu::Button::KbUp
-				@player.move_or_attack(0, -1)
+				$player.move_or_attack(0, -1)
 			when Gosu::Button::KbDown
-				@player.move_or_attack(0, 1)
+				$player.move_or_attack(0, 1)
 			end
 		end
 end

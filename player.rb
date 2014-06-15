@@ -1,13 +1,13 @@
-require './gameobject'
+require './creature'
 
-class Player < GameObject
-	def initialize(window, map, x, y, object_name, blocks=false)
+class Player < Creature
+	def initialize(window, map, x, y, object_name, blocks=false, hp, strength, defense)
 		super
 	end
 
 	def move_or_attack(x1, y1)
-		@x2 = (@x + x1)
-		@y2 = (@y + y1)
+		@x2 = (x + x1)
+		@y2 = (y + y1)
 		
 		if @map.blocked?(@x2, @y2) && @map.attackable?(@x2, @y2)
 			target = @map.whats_there?(@x2, @y2)
@@ -21,7 +21,7 @@ class Player < GameObject
 			#add check to see if player walks off screen
 		end
 		$monsters.each do |monster|
-			puts monster.name + " growls"
+			monster.take_turn
 		end
 	end
 end

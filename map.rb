@@ -8,7 +8,7 @@ class Map
 		@height = height
 		@window = window
 
-		@map = init_map
+		$map = init_map
 
 		@max_room_monsters = 3
 
@@ -35,13 +35,13 @@ class Map
 			if blocked?(x,y) == false
 				if rand(100) < 80
 					if choice < 20
-						@monster = Monster.new(@window, @map, x, y, 'bat', true)
+						@monster = Monster.new(@window, $map, x, y, 'bat', true, 5, 0, 2)
 					elsif choice > 20 && choice < 40
-						@monster = Monster.new(@window, @map, x, y, 'orc', true)
+						@monster = Monster.new(@window, $map, x, y, 'orc', true, 15, 2, 5)
 					elsif choice > 40 && choice < 60
-						@monster = Monster.new(@window, @map, x, y, 'spider', true)
+						@monster = Monster.new(@window, $map, x, y, 'spider', true, 7, 1, 3)
 					else
-						@monster = Monster.new(@window, @map, x, y, 'gecko', true)
+						@monster = Monster.new(@window, $map, x, y, 'gecko', true, 10, 1, 4)
 					end
 				set_tile(x,y,'monster')
 				$monsters << @monster
