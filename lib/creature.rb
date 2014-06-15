@@ -2,12 +2,12 @@ require './lib/gameobject.rb'
 include Math
 
 class Creature < GameObject
-	attr_accessor :hp, :strength, :defense
+	attr_accessor :hp, :strength, :defense, :max_hp
 
-	def initialize(window, map, x, y, object_name, blocks=false, hp, strength, defense)
+	def initialize(window, map, x, y, object_name, blocks=false, max_hp, strength, defense)
 		super(window, map, x, y, object_name, blocks=false)
-
-		@hp = hp
+		@max_hp = max_hp
+		@hp = max_hp
 		@defense = defense
 		@strength = strength
 	end

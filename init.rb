@@ -6,6 +6,6 @@ require 'gosu'
 require './lib/map'
 require './lib/player'
 require './lib/tile'
-require './lib/main'
+require './lib/main_scene'
 
 window = GameWindow.new.show
