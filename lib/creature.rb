@@ -1,4 +1,4 @@
-require './gameobject.rb'
+require './lib/gameobject.rb'
 include Math
 
 class Creature < GameObject

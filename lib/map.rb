@@ -1,4 +1,4 @@
-require './monster'
+require './lib/monster'
 
 class Map
 	attr_accessor :width, :height, :player_x, :player_y
