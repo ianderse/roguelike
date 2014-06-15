@@ -34,7 +34,6 @@ class Creature < GameObject
 	def take_damage(damage)	
 		if damage > 0
 			self.hp -= damage
-			puts self.hp
 		end
 		if dead?
 			puts name + ' is dead!'
