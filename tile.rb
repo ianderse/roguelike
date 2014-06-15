@@ -20,8 +20,8 @@ class Rect
 	end
 
 	def intersect(other)
-		if (self.x1 - 5 <= other.x2 and self.x2 >= other.x1 - 5 and
-			self.y1 - 5 <= other.y2 and self.y2 >= other.y2 - 5)
+		if (self.x1 - 6 <= other.x2 and self.x2 >= other.x1 - 6 and
+			self.y1 - 6 <= other.y2 and self.y2 >= other.y2 - 6)
 			true
 		else
 			false

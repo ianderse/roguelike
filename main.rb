@@ -1,3 +1,7 @@
+#IDEAS
+#health bar displayed above each creature if it is below 100%
+#reduce window size, increase map size, camera follows player
+
 require 'gosu'
 require './map'
 require './player'
@@ -5,12 +9,17 @@ require './tile'
 
 class GameWindow < Gosu::Window
 	def initialize
-		super(1900, 1080, false)
+		$window_width = 1280
+		$window_height = 1020
+		super($window_width, $window_height, false)
 
 		self.caption = "Ruby Roguelike"
 
-		@map_width = 61
-		@map_height = 34
+		$window_width = 1200
+		$window_height = 800
+
+		@map_width = 100
+		@map_height = 100
 
 		@room_max_size = 10
 		@room_min_size = 6
@@ -39,14 +48,20 @@ class GameWindow < Gosu::Window
 
 		$map.make_map(@max_rooms, @room_min_size, @room_max_size, @map_width, @map_height)
 
-		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 10, 5, 0)
+		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 10, 5, 3)
+
+		$camera_x = ($player.x * 31 - 5) - $window_width/2
+		$camera_y = ($player.y * 31 - 5) - $window_height/2
 	end
 
 	def draw
 		if $game_state == 'playing'
-			$map.draw
-			$monsters.each do |i|
-				i.draw
+			translate(-$camera_x, -$camera_y) do
+				$map.draw
+				$monsters.each do |i|
+					i.draw
+				end
+
 			end
 		elsif $game_state == 'dead'
 			@font.draw("GAME OVER", 800, 600, 1, 2.0, 2.0, 0xffffff00)
