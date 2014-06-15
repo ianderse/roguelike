@@ -20,7 +20,6 @@ class Player < Creature
 
 			$camera_x = [[($player.x * 31 - 5) - $window_width/2, 0].max, $window_width * 31 - 5].min
 			$camera_y = [[($player.y * 31 - 5) - $window_height/2, 0].max, $window_height * 31 - 5].min
-			puts $camera_x, $camera_y
 		end
 		$monsters.each do |monster|
 			monster.take_turn
