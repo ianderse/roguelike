@@ -172,6 +172,26 @@ class Map
 		true
 	end
 
+	def attackable?(x, y)
+		if @map[x][y] == Tiles::Monster
+			true
+		else
+			false
+		end
+	end
+
+	def whats_there?(x, y)
+		tile = @map[x][y]
+
+		if tile == Tiles::Monster
+			$monsters.each do |monster|
+				if monster.x == x && monster.y == y
+					return monster
+				end
+			end
+		end
+	end
+
 	def set_tile(x, y, stat)
 		if stat == 'wall'
 			@map[x][y] = Tiles::Wall

@@ -41,13 +41,13 @@ class GameWindow < Gosu::Window
 			when Gosu::Button::KbEscape
 				self.close
 			when Gosu::Button::KbLeft
-				@player.move(-1,0)
+				@player.move_or_attack(-1,0)
 			when Gosu::Button::KbRight
-				@player.move(1, 0)
+				@player.move_or_attack(1, 0)
 			when Gosu::Button::KbUp
-				@player.move(0, -1)
+				@player.move_or_attack(0, -1)
 			when Gosu::Button::KbDown
-				@player.move(0, 1)
+				@player.move_or_attack(0, 1)
 			end
 		end
 end
