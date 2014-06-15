@@ -1,4 +1,5 @@
 module Tiles
+	Monster = 3
 	Player = 2
 	Wall = 1
 	Floor = 0

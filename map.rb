@@ -1,3 +1,5 @@
+require './monster'
+
 class Map
 	attr_accessor :width, :height, :player_x, :player_y
 
@@ -22,14 +24,29 @@ class Map
 	end
 
 	def place_objects(room)
-		num_monsters = rand(1..@max_room_monsters)
+
+		choice = rand(100)
+		num_monsters = rand(0..@max_room_monsters)
+
 		(1..@max_room_monsters).each do |i|
+			choice = rand(100)
 			x = rand(room.x1..room.x2)
 			y = rand(room.y1..room.y2)
-		end
-
-		if rand(100) < 80
-			
+			if blocked?(x,y) == false
+				if rand(100) < 80
+					if choice < 20
+						@monster = Monster.new(@window, @map, x, y, 'bat', true)
+					elsif choice > 20 && choice < 40
+						@monster = Monster.new(@window, @map, x, y, 'orc', true)
+					elsif choice > 40 && choice < 60
+						@monster = Monster.new(@window, @map, x, y, 'spider', true)
+					else
+						@monster = Monster.new(@window, @map, x, y, 'gecko', true)
+					end
+				set_tile(x,y,'monster')
+				$monsters << @monster
+				end	
+			end
 		end
 	end
 
@@ -71,6 +88,7 @@ class Map
 			end
 			if failed == false
 				create_room(new_room)
+				place_objects(new_room)
 				(new_x, new_y) = new_room.center
 
 				if num_rooms == 0
@@ -133,6 +151,8 @@ class Map
 	def blocked?(x, y)
 		if @map[x][y] == Tiles::Wall
 			true
+		elsif @map[x][y] == Tiles::Monster
+			true
 		else
 			false
 		end
@@ -159,6 +179,8 @@ class Map
 			@map[x][y] = Tiles::Floor
 		elsif stat == 'player'
 			@map[x][y] = Tiles::Player
+		elsif stat == 'monster'
+			@map[x][y] = Tiles::Monster
 		end
 	end
 
@@ -181,6 +203,8 @@ class Map
 				elsif tile == Tiles::Player
 					@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 					@player_tile.draw(x * 31 - 5, y * 31 - 5, 1, 1, 1, color = @color_light_ground)
+				elsif tile == Tiles::Monster
+				 	@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 				end
 			end
 		end

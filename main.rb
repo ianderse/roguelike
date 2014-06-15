@@ -17,6 +17,7 @@ class GameWindow < Gosu::Window
 		max_rooms = 15
 
 		$image_tiles = Gosu::Image.load_tiles(self, './data/gfx/fantasy-tileset.png', 32, 32, false)
+		$monsters = []
 
 		@map = Map.new(map_width, map_height, self)
 
@@ -30,6 +31,9 @@ class GameWindow < Gosu::Window
 
 	def draw
 		@map.draw
+		$monsters.each do |i|
+			i.draw
+		end
 	end
 
 	def button_down(id)
