@@ -1,6 +1,6 @@
 class GameObject
 
-	attr_accessor :x, :y, :name
+	attr_accessor :x, :y, :name, :blocks
 
 	def initialize(window, map, x, y, object_name, blocks=false)
 		@x = x

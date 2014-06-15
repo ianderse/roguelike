@@ -16,23 +16,25 @@ class Creature < GameObject
 		if self.is_a?(Player)
 			if self.hp <= 0
 				$game_state = 'dead'
-				true
+				return true
+			else
+				return false
 			end
-		else
-			$monsters.each do |monster|
-				if monster.hp <= 0
-					$monsters.delete(monster)
-					monster.clear
-					true
-				end
+		elsif self.is_a?(Monster)
+			if self.hp <= 0
+				$monsters.delete(self)
+				self.clear
+				return true
+			else
+				return false
 			end
 		end
 	end
 
-	def take_damage(damage)
-		@damage = damage
-		if @damage > 0
-			@hp -= @damage
+	def take_damage(damage)	
+		if damage > 0
+			self.hp -= damage
+			puts self.hp
 		end
 		if dead?
 			puts name + ' is dead!'
@@ -40,12 +42,11 @@ class Creature < GameObject
 	end
 
 	def attack(target)
-		@damage = @strength - target.defense
-		
+		damage = (rand(5)+ @strength) - (rand(3) + target.defense)
 
-		if @damage > 0
-			puts self.name + ' attacks ' + target.name + ' for ' + @damage.to_s + ' damage'
-			target.take_damage(@damage)
+		if damage > 0
+			puts self.name + ' attacks ' + target.name + ' for ' + damage.to_s + ' damage'
+			target.take_damage(damage)
 		else
 			puts self.name + ' deals no damage!'
 		end
