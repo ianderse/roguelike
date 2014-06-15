@@ -9,30 +9,48 @@ class GameWindow < Gosu::Window
 
 		self.caption = "Ruby Roguelike"
 
-		map_width = 61
-		map_height = 34
+		@map_width = 61
+		@map_height = 34
 
-		room_max_size = 10
-		room_min_size = 6
-		max_rooms = 15
+		@room_max_size = 10
+		@room_min_size = 6
+		@max_rooms = 15
 
 		$image_tiles = Gosu::Image.load_tiles(self, './data/gfx/fantasy-tileset.png', 32, 32, false)
 		$monsters = []
 
-		$map = Map.new(map_width, map_height, self)
+		reset_game
 
-		$map.make_map(max_rooms, room_min_size, room_max_size, map_width, map_height)
-
-		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 30, 10, 0)
+		@font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 	end
 
 	def update
 	end
 
+	def reset_game
+
+		$monsters.reject! do |monster|
+			true
+		end
+
+		$game_state = 'playing'
+
+		$map = Map.new(@map_width, @map_height, self)
+
+		$map.make_map(@max_rooms, @room_min_size, @room_max_size, @map_width, @map_height)
+
+		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 10, 5, 0)
+	end
+
 	def draw
-		$map.draw
-		$monsters.each do |i|
-			i.draw
+		if $game_state == 'playing'
+			$map.draw
+			$monsters.each do |i|
+				i.draw
+			end
+		elsif $game_state == 'dead'
+			@font.draw("GAME OVER", 800, 600, 1, 2.0, 2.0, 0xffffff00)
+			@font.draw("Press 'space' to continue", 800, 650, 1, 2.0, 2.0, 0xffffff00)
 		end
 	end
 
@@ -48,6 +66,8 @@ class GameWindow < Gosu::Window
 				$player.move_or_attack(0, -1)
 			when Gosu::Button::KbDown
 				$player.move_or_attack(0, 1)
+			when Gosu::Button::KbSpace
+				reset_game
 			end
 		end
 end

@@ -15,6 +15,7 @@ class Creature < GameObject
 	def dead?
 		if self.is_a?(Player)
 			if self.hp <= 0
+				$game_state = 'dead'
 				true
 			end
 		else
