@@ -1,4 +1,4 @@
-require './lib/monster'
+require './monster'
 
 class Map
 	attr_accessor :width, :height, :player_x, :player_y
@@ -75,6 +75,8 @@ class Map
 			y = rand(0..map_height - h - 1)
 
 			new_room = Rect.new(x, y, w, h)
+
+
 
 			rooms.each do |other_room|
 				if new_room.intersect(other_room) == true

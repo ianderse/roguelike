@@ -1,4 +1,4 @@
-require './lib/creature'
+require './creature'
 
 class Monster < Creature
 	def initialize(window, map, x, y, object_name, blocks=false, hp, strength, defense)

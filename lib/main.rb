@@ -1,12 +1,3 @@
-#IDEAS
-#health bar displayed above each creature if it is below 100%
-#reduce window size, increase map size, camera follows player
-
-require 'gosu'
-require './map'
-require './player'
-require './tile'
-
 class GameWindow < Gosu::Window
 	def initialize
 		$window_width = 1280
@@ -86,5 +77,3 @@ class GameWindow < Gosu::Window
 			end
 		end
 end
-
-window = GameWindow.new.show
