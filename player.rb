@@ -16,12 +16,11 @@ class Player < Creature
 			@map.set_tile(@x, @y, 'floor')
 			@x = (@x + x1)
 			@y = (@y + y1)
-			@map.set_tile(@x, @y, 'player') 
-			#will need to change how set_tile works, somehow adjust it to reading what object is being passed into it (self)
-			#add check to see if player walks off screen
-		end
-		$monsters.each do |monster|
-			monster.take_turn
+			@map.set_tile(@x, @y, 'player')
+
+			$monsters.each do |monster|
+				monster.take_turn
+			end
 		end
 	end
 end
