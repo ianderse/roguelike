@@ -30,9 +30,11 @@ class Player < Creature
 		if self.hp < self.max_hp
 			self.hp += 1
 		end
-		
+
 		$monsters.each do |monster|
 			monster.take_turn
 		end
+
+		@window.message("Player is resting")
 	end
 end

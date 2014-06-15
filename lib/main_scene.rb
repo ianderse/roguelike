@@ -13,6 +13,12 @@ class GameWindow < Gosu::Window
 		@room_min_size = 6
 		@max_rooms = 15
 
+		@msg_width = 500
+		@msg_height = 220
+		$game_msgs = []
+
+		$msg_black = Gosu::Color.new(100, 0, 0, 0)
+		$msg_white = Gosu::Color.new(100, 255, 255, 255)
 		$white = Gosu::Color.new(255, 255, 255, 255)
 		$black = Gosu::Color.new(255, 0, 0, 0)
 		$red = Gosu::Color.new(255, 160, 0, 0)
@@ -28,6 +34,24 @@ class GameWindow < Gosu::Window
 	def update
 	end
 
+	def message(text, color = $msg_white)
+		$game_msgs.each do |msg|
+			if $game_msgs.length > (@msg_height / 22).to_i
+				$game_msgs.delete(msg)
+			end
+		end
+		$game_msgs << text
+	end
+
+	def draw_messages
+		self.draw_quad(0, 800, $msg_black, @msg_width, 800, $msg_black, 0, 800 + @msg_height, $msg_black, @msg_width, 800 + @msg_height, $msg_black, 2)
+		y = 800
+		$game_msgs.each do |msg|
+			@font.draw(msg, 5, y, 3, 1.0, 1.0, $msg_white)
+			y += 20
+		end
+	end
+
 	def draw_bar(x, y, w, h, color1, color2, z=2, object)
 		self.draw_quad(x, y, $white, x + w, y, $white, x, y + h, $white, x + w, y + h, $white, z)    
 		self.draw_quad(x + 1, y + 1, $black, x + w - 1, y + 1, $black, x + 1, y + h - 1, $black, x + w - 1, y + h - 1, $black, z)
@@ -35,9 +59,7 @@ class GameWindow < Gosu::Window
 		hp = object.hp
 		max_hp = object.max_hp
 
-		pre = (hp*w)/100
-
-		length = (pre * 100) / max_hp
+		length = (((hp*w)/100) * 100) / max_hp
 
 		self.draw_quad(x + 1, y + 1, color2, x + length - 1, y + 1, color2, x + 1, y + h - 1, color2, x + length - 1, y + h - 1, color2, z)
 	end
@@ -70,6 +92,7 @@ class GameWindow < Gosu::Window
 			end
 			draw_bar($window_width/2 - 50, $window_height - 20, 200, 20, $white, $red, 2, $player)
 			@font.draw("HP: ", $window_width/2 - 100, $window_height, 1, 1.25, 1.25, $red)
+			draw_messages
 		elsif $game_state == 'dead'
 			@font.draw("GAME OVER", $window_width/2 - 100, $window_height/2, 1, 2.0, 2.0, 0xffffff00)
 			@font.draw("Press 'space' to continue", $window_width/2 - 100, $window_height/2 + 30, 1, 2.0, 2.0, 0xffffff00)

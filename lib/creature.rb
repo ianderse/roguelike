@@ -36,7 +36,7 @@ class Creature < GameObject
 			self.hp -= damage
 		end
 		if dead?
-			puts name + ' is dead!'
+			@window.message(name + ' is dead!')
 		end
 	end
 
@@ -44,10 +44,10 @@ class Creature < GameObject
 		damage = (rand(5)+ @strength) - (rand(3) + target.defense)
 
 		if damage > 0
-			puts self.name + ' attacks ' + target.name + ' for ' + damage.to_s + ' damage'
+			@window.message(self.name + ' attacks ' + target.name + ' for ' + damage.to_s + ' damage')
 			target.take_damage(damage)
 		else
-			puts self.name + ' deals no damage!'
+			@window.message(name + ' deals no damage!')
 		end
 	end
 
