@@ -50,8 +50,8 @@ class GameWindow < Gosu::Window
 
 		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 10, 5, 3)
 
-		$camera_x = ($player.x * 31 - 5) - $window_width/2
-		$camera_y = ($player.y * 31 - 5) - $window_height/2
+		$camera_x = [[($player.x * 31 - 5) - $window_width/2, 0].max, $window_width * 31 - 5].min
+		$camera_y = [[($player.y * 31 - 5) - $window_height/2, 0].max, $window_height * 31 - 5].min
 	end
 
 	def draw
