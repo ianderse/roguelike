@@ -25,6 +25,10 @@ class GameWindow < Gosu::Window
 
 		$image_tiles = Gosu::Image.load_tiles(self, './data/gfx/fantasy-tileset.png', 32, 32, false)
 		$monsters = []
+		$items = []
+		$bag = []
+
+		@inventory = Inventory.new(self)
 
 		reset_game
 
@@ -54,7 +58,7 @@ class GameWindow < Gosu::Window
 		end
 	end
 
-	def draw_bar(x, y, w, h, color1, color2, z=2, object)
+	def draw_hp_bar(x, y, w, h, color1, color2, z=2, object)
 		self.draw_quad(x, y, $white, x + w, y, $white, x, y + h, $white, x + w, y + h, $white, z)    
 		self.draw_quad(x + 1, y + 1, $black, x + w - 1, y + 1, $black, x + 1, y + h - 1, $black, x + w - 1, y + h - 1, $black, z)
 		
@@ -69,6 +73,10 @@ class GameWindow < Gosu::Window
 	def reset_game
 
 		$monsters.reject! do |monster|
+			true
+		end
+
+		$items.reject! do |item|
 			true
 		end
 
@@ -91,43 +99,74 @@ class GameWindow < Gosu::Window
 				$monsters.each do |i|
 					i.draw
 				end
+				$items.each do |i|
+					i.draw
+				end
 			end
-			draw_bar($window_width/2 - 50, $window_height - 20, 200, 20, $white, $red, 2, $player)
-			@font.draw("HP: ", $window_width/2 - 100, $window_height, 1, 1.25, 1.25, $red)
+			draw_hp_bar($window_width/2 - 50, $window_height - 20, 200, 20, $white, $red, 2, $player)
+			@font.draw("HP: ", $window_width/2 - 100, $window_height - 25, 2, 1.25, 1.25, $red)
 			draw_messages
+		elsif $game_state == 'inventory'
+			@inventory.draw
 		elsif $game_state == 'dead'
-			@font.draw("GAME OVER", $window_width/2 - 100, $window_height/2, 1, 2.0, 2.0, 0xffffff00)
-			@font.draw("Press 'space' to continue", $window_width/2 - 100, $window_height/2 + 30, 1, 2.0, 2.0, 0xffffff00)
+			@font.draw("GAME OVER", $window_width/2 - 150, $window_height/2, 1, 2.0, 2.0, 0xffffff00)
+			@font.draw("Press 'space' to continue", $window_width/2 - 150, $window_height/2 + 30, 1, 2.0, 2.0, 0xffffff00)
 		end
 	end
 
 	def button_down(id)
-		case id
-			when Gosu::Button::KbEscape
+		if $game_state == 'playing'
+			case id
+				when Gosu::Button::KbEscape
+					self.close
+				when Gosu::Button::KbLeft
+					$player.move_or_attack(-1,0)
+				when Gosu::Button::KbRight
+					$player.move_or_attack(1, 0)
+				when Gosu::Button::KbUp
+					$player.move_or_attack(0, -1)
+				when Gosu::Button::KbDown
+					$player.move_or_attack(0, 1)
+				when Gosu::Button::Kb5
+					$player.rest
+				when Gosu::Button::KbI
+					$game_state = @inventory.toggle
+				when Gosu::Button::KbG
+					$items.each do |i|
+						if i.x == $player.x && i.y == $player.y
+							i.pick_up
+						end
+					end
+				when Gosu::MsLeft #need to figure out how to convert map x to mouse_x
+					# $monsters.each do |monster|
+					# 	if Gosu::distance(monster.x * 12.8, -monster.y * 10.2, mouse_x, mouse_y) < 10
+					# 		puts monster.x * 12.8
+					# 		puts mouse_x
+					# 		message(monster.name)
+					# 	end
+					# end
+			end
+		elsif $game_state == 'dead'
+			if id == Gosu::Button::KbSpace
+				reset_game
+			elsif id == Gosu::Button::KbEscape
 				self.close
-			when Gosu::Button::KbLeft
-				$player.move_or_attack(-1,0)
-			when Gosu::Button::KbRight
-				$player.move_or_attack(1, 0)
-			when Gosu::Button::KbUp
-				$player.move_or_attack(0, -1)
-			when Gosu::Button::KbDown
-				$player.move_or_attack(0, 1)
-			when Gosu::Button::Kb5
-				$player.rest
-			when Gosu::Button::KbSpace
-				if $game_state == 'dead'
-					reset_game
-				end
-			when Gosu::MsLeft
-				# $monsters.each do |monster|
-				# 	if Gosu::distance(monster.x * 12.8, -monster.y * 10.2, mouse_x, mouse_y) < 10
-				# 		puts monster.x * 12.8
-				# 		puts mouse_x
-				# 		message(monster.name)
-				# 	end
-				# end
-
+			end
+		elsif $game_state == 'inventory'
+			case id
+				when Gosu::Button::KbEscape
+					self.close
+				when Gosu::Button::KbLeft
+					@inventory.move(:left)
+				when Gosu::Button::KbRight
+					@inventory.move(:right)
+				when Gosu::Button::KbUp
+					@inventory.move(:up)
+				when Gosu::Button::KbDown
+					@inventory.move(:down)
+				when Gosu::Button::KbI
+					$game_state = @inventory.toggle
 			end
 		end
+	end
 end

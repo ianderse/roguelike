@@ -7,5 +7,7 @@ require './lib/map'
 require './lib/player'
 require './lib/tile'
 require './lib/main_scene'
+require './lib/inventory'
+require './lib/item'
 
 window = GameWindow.new.show

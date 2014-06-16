@@ -31,7 +31,7 @@ class Monster < Creature
 	def draw
 		@image.draw(@x * 31 - 5, @y * 31 - 5, 2, 1, 1)
 		if self.hp < self.max_hp
-			@window.draw_bar(@x * 31 - 10, @y * 31 - 15, 40, 5, $white, $red, 1, self)
+			@window.draw_hp_bar(@x * 31 - 10, @y * 31 - 15, 40, 5, $white, $red, 1, self)
 		end
 	end
 end

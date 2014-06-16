@@ -11,6 +11,7 @@ class Map
 		$map = init_map
 
 		@max_room_monsters = 3
+		@max_room_items = 2
 
 		@color_dark_wall = Gosu::Color.rgba(0, 0, 100, 255)
 		@color_light_wall = Gosu::Color.rgba(130, 110, 50, 255)
@@ -27,8 +28,9 @@ class Map
 
 		choice = rand(100)
 		num_monsters = rand(0..@max_room_monsters)
+		num_items = rand(0...@max_room_items)
 
-		(1..@max_room_monsters).each do |i|
+		(0..num_monsters).each do |i|
 			choice = rand(100)
 			x = rand(room.x1..room.x2)
 			y = rand(room.y1..room.y2)
@@ -48,6 +50,18 @@ class Map
 				end	
 			end
 		end
+
+		(0..num_items).each do |i|
+			choice = rand(100)
+			x = rand(room.x1..room.x2)
+			y = rand(room.y1..room.y2)
+
+			if blocked?(x,y) == false
+				item = Item.new(@window, $map, x, y, 'healing potion', false)
+				$items << item
+			end
+		end
+
 	end
 
 	def init_map	
@@ -119,7 +133,6 @@ class Map
 
 		(a..b).each do |x|
 			@map[x][y] = Tiles::Floor
-
 		end
 	end
 
@@ -214,6 +227,8 @@ class Map
 					else
 						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_wall)
 					end
+				elsif tile == Tiles::Item
+					@floor.draw(x * 31, y * 31, 0, 1, 1)
 				elsif tile == Tiles::Floor
 					if not visible?(x,y)
 						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_ground)
@@ -222,7 +237,7 @@ class Map
 					end
 				elsif tile == Tiles::Player
 					@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
-					@player_tile.draw(x * 31 - 5, y * 31 - 5, 1, 1, 1, color = @color_light_ground)
+					@player_tile.draw(x * 31 - 5, y * 31 - 5, 2, 1, 1, color = @color_light_ground)
 				elsif tile == Tiles::Monster
 				 	@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 				end

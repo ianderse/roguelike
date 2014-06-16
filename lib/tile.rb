@@ -1,4 +1,5 @@
 module Tiles
+	Item = 4
 	Monster = 3
 	Player = 2
 	Wall = 1
