@@ -36,7 +36,7 @@ class GameWindow < Gosu::Window
 
 		reset_game
 
-		@font = Gosu::Font.new(self, Gosu::default_font_name, 20)
+		$font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 	end
 
 	def needs_cursor?; true; end
@@ -57,7 +57,7 @@ class GameWindow < Gosu::Window
 		self.draw_quad(0, 800, $msg_black, @msg_width, 800, $msg_black, 0, 800 + @msg_height, $msg_black, @msg_width, 800 + @msg_height, $msg_black, 2)
 		y = 800
 		$game_msgs.each do |msg|
-			@font.draw(msg, 5, y, 3, 1.0, 1.0, $msg_white)
+			$font.draw(msg, 5, y, 3, 1.0, 1.0, $msg_white)
 			y += 20
 		end
 	end
@@ -97,7 +97,7 @@ class GameWindow < Gosu::Window
 
 		#$map_obj.make_map(@max_rooms, @room_min_size, @room_max_size, $map_width, @map_height)
 
-		$player = Player.new(self, $player_x, $player_y, 'player', 20, 5, 0)
+		$player = Player.new(self, $player_x, $player_y, 'player', 20, 5, 500)
 
 		$camera_x = [[($player.x * 31 - 5) - $window_width/2, 0].max, $window_width * 31 - 5].min
 		$camera_y = [[($player.y * 31 - 5) - $window_height/2, 0].max, $window_height * 31 - 5].min
@@ -115,13 +115,13 @@ class GameWindow < Gosu::Window
 				end
 			end
 			draw_hp_bar($window_width/2 - 50, $window_height - 20, 200, 20, $white, $red, 2, $player)
-			@font.draw("HP: ", $window_width/2 - 100, $window_height - 25, 2, 1.25, 1.25, $red)
+			$font.draw("HP: ", $window_width/2 - 100, $window_height - 25, 2, 1.25, 1.25, $red)
 			draw_messages
 		elsif $game_state == 'inventory'
 			@inventory.draw
 		elsif $game_state == 'dead'
-			@font.draw("GAME OVER", $window_width/2 - 150, $window_height/2, 1, 2.0, 2.0, 0xffffff00)
-			@font.draw("Press 'space' to continue", $window_width/2 - 150, $window_height/2 + 30, 1, 2.0, 2.0, 0xffffff00)
+			$font.draw("GAME OVER", $window_width/2 - 150, $window_height/2, 1, 2.0, 2.0, 0xffffff00)
+			$font.draw("Press 'space' to continue", $window_width/2 - 150, $window_height/2 + 30, 1, 2.0, 2.0, 0xffffff00)
 		end
 	end
 
@@ -164,20 +164,7 @@ class GameWindow < Gosu::Window
 				self.close
 			end
 		elsif $game_state == 'inventory'
-			case id
-				when Gosu::Button::KbEscape
-					self.close
-				when Gosu::Button::KbLeft
-					@inventory.move(:left)
-				when Gosu::Button::KbRight
-					@inventory.move(:right)
-				when Gosu::Button::KbUp
-					@inventory.move(:up)
-				when Gosu::Button::KbDown
-					@inventory.move(:down)
-				when Gosu::Button::KbI
-					$game_state = @inventory.toggle
-			end
+			@inventory.button_handle(id)
 		end
 	end
 end
