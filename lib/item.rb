@@ -41,3 +41,28 @@ class Item < GameObject
 		@image.draw(@x * 31 - 5, @y * 31 - 5, 1, 1, 1)
 	end
 end
+
+class Scroll < Item
+	def initialize(window, x, y, object_name, blocks=false)
+		super
+		if name == 'lightning scroll'
+			@image = $image_tiles[49]
+			@l_range = 5
+			@l_damage = 30
+		end
+	end
+
+		def use
+			if name == 'lightning scroll'
+				monster = $player.closest_monster(@l_range)
+
+				if monster == nil
+					@window.message("No enemy close enough to strike!")
+				else
+					@window.message("A lightning bolt strikes the " + monster.name)
+					monster.take_damage(@l_damage)
+					$bag.delete(self)
+				end
+			end
+		end
+end

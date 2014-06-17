@@ -55,8 +55,13 @@ class Map
 			y = rand(room.y1..room.y2)
 
 			if blocked?(x,y) == false
-				item = Item.new(@window, x, y, 'healing potion', false)
-				$items << item
+				if choice > 70
+					item = Item.new(@window, x, y, 'healing potion', false)
+					$items << item
+				else
+					item = Scroll.new(@window, x, y, 'lightning scroll', false)
+					$items << item
+				end
 			end
 		end
 

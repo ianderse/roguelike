@@ -29,7 +29,7 @@ class Inventory
 		$font.draw("ESC to close", $window_width/2 - 120, 40, 1, 2.0, 2.0, $white)
 		$bag.each do |item|
 			$font.draw(alphabet[a_index] + ')', 1, 20+y, 1, 1.5, 1.5, $white)
-			$font.draw(item.name, 50, 20+y, 1, 1.5, 1.5, $white)
+			$font.draw(item.name.capitalize, 50, 20+y, 1, 1.5, 1.5, $white)
 			y += 50
 			a_index += 1
 		end

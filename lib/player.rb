@@ -26,6 +26,20 @@ class Player < Creature
 		end
 	end
 
+	def closest_monster(max_range)
+		closest_enemy = nil
+		closest_dist = max_range + 1
+
+		$monsters.each do |monster|
+			dist = $player.distance_to(monster)
+			if dist < closest_dist
+				closest_enemy = monster
+				closest_dist = dist
+			end
+		end
+		return closest_enemy 
+	end
+
 	def rest
 		if self.hp < self.max_hp
 			self.hp += 1
