@@ -16,6 +16,10 @@ class Item < GameObject
 			@window.message("You picked up a " + self.name)
 		end
 
+		$monsters.each do |monster|
+			monster.take_turn
+		end
+
 	end
 
 	def draw
