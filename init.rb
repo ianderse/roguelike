@@ -9,5 +9,6 @@ require './lib/tile'
 require './lib/main_scene'
 require './lib/inventory'
 require './lib/item'
+require './lib/leaf'
 
 window = GameWindow.new.show

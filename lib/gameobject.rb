@@ -2,11 +2,10 @@ class GameObject
 
 	attr_accessor :x, :y, :name, :blocks, :window
 
-	def initialize(window, map, x, y, object_name, blocks=false)
+	def initialize(window, x, y, object_name, blocks=false)
 		@window = window
 		@x = x
 		@y = y
-		@map = map
 		@name = object_name
 		@blocks = blocks
 	end
@@ -24,7 +23,7 @@ class GameObject
 	end
 
 	def clear
-		@map.set_tile(@x, @y, 'floor')
+		$map_obj.set_tile(@x, @y, 'floor')
 	end
 
 end

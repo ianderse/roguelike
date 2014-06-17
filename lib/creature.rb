@@ -4,8 +4,8 @@ include Math
 class Creature < GameObject
 	attr_accessor :hp, :strength, :defense, :max_hp
 
-	def initialize(window, map, x, y, object_name, blocks=false, max_hp, strength, defense)
-		super(window, map, x, y, object_name, blocks=false)
+	def initialize(window, x, y, object_name, blocks=false, max_hp, strength, defense)
+		super(window, x, y, object_name, blocks=false)
 		@max_hp = max_hp
 		@hp = max_hp
 		@defense = defense
@@ -62,11 +62,11 @@ class Creature < GameObject
 		@x2 = (@x + x)
 		@y2 = (@y + y)
 		
-		if $map.blocked?(@x2, @y2) == false
-			$map.set_tile(@x, @y, 'floor')
+		if $map_obj.blocked?(@x2, @y2) == false
+			$map_obj.set_tile(@x, @y, 'floor')
 			@x = (@x + x)
 			@y = (@y + y)
-			$map.set_tile(@x, @y, 'monster') 
+			$map_obj.set_tile(@x, @y, 'monster') 
 		end
 	end
 

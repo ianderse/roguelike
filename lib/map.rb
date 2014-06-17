@@ -8,8 +8,6 @@ class Map
 		@height = height
 		@window = window
 
-		$map = init_map
-
 		@max_room_monsters = 3
 		@max_room_items = 2
 
@@ -37,13 +35,13 @@ class Map
 			if blocked?(x,y) == false
 				if rand(100) < 80
 					if choice < 20
-						@monster = Monster.new(@window, $map, x, y, 'bat', true, 5, 0, 2)
+						@monster = Monster.new(@window, x, y, 'bat', true, 5, 0, 2)
 					elsif choice > 20 && choice < 40
-						@monster = Monster.new(@window, $map, x, y, 'orc', true, 15, 2, 5)
+						@monster = Monster.new(@window, x, y, 'orc', true, 15, 2, 5)
 					elsif choice > 40 && choice < 60
-						@monster = Monster.new(@window, $map, x, y, 'spider', true, 7, 1, 3)
+						@monster = Monster.new(@window, x, y, 'spider', true, 7, 1, 3)
 					else
-						@monster = Monster.new(@window, $map, x, y, 'gecko', true, 10, 1, 4)
+						@monster = Monster.new(@window, x, y, 'gecko', true, 10, 1, 4)
 					end
 				set_tile(x,y,'monster')
 				$monsters << @monster
@@ -57,7 +55,7 @@ class Map
 			y = rand(room.y1..room.y2)
 
 			if blocked?(x,y) == false
-				item = Item.new(@window, $map, x, y, 'healing potion', false)
+				item = Item.new(@window, x, y, 'healing potion', false)
 				$items << item
 			end
 		end
@@ -65,7 +63,7 @@ class Map
 	end
 
 	def init_map	
-		@map = Array.new(@width) do |x|
+		Array.new(@width) do |x|
 			Array.new(@height) do |y|
 				Tiles::Wall
 			end
@@ -132,7 +130,7 @@ class Map
 		b = [x1, x2].max 
 
 		(a..b).each do |x|
-			@map[x][y] = Tiles::Floor
+			$map[x][y] = Tiles::Floor
 		end
 	end
 
@@ -141,7 +139,7 @@ class Map
 		b = [y1, y2].max 
 
 		(a...b).each do |y|
-			@map[x][y] = Tiles::Floor
+			$map[x][y] = Tiles::Floor
 
 		end
 	end
@@ -152,7 +150,7 @@ class Map
 
 		 a.each do |x|
 			b.each do |y|
-				@map[x][y] = Tiles::Floor
+				$map[x][y] = Tiles::Floor
 			end
 		end
 	end
@@ -162,9 +160,9 @@ class Map
 	end
 
 	def blocked?(x, y)
-		if @map[x][y] == Tiles::Wall
+		if $map[x][y] == Tiles::Wall
 			true
-		elsif @map[x][y] == Tiles::Monster
+		elsif $map[x][y] == Tiles::Monster
 			true
 		else
 			false
@@ -172,7 +170,7 @@ class Map
 	end
 
 	def blocked_sight?(x, y)
-		if @map[x][y] == Tiles::Wall
+		if $map[x][y] == Tiles::Wall
 			true
 		else
 			false
@@ -186,7 +184,7 @@ class Map
 	end
 
 	def attackable?(x, y)
-		if @map[x][y] == Tiles::Monster
+		if $map[x][y] == Tiles::Monster
 			true
 		else
 			false
@@ -194,7 +192,7 @@ class Map
 	end
 
 	def whats_there?(x, y)
-		tile = @map[x][y]
+		tile = $map[x][y]
 
 		if tile == Tiles::Monster
 			$monsters.each do |monster|
@@ -207,20 +205,20 @@ class Map
 
 	def set_tile(x, y, stat)
 		if stat == 'wall'
-			@map[x][y] = Tiles::Wall
+			$map[x][y] = Tiles::Wall
 		elsif stat == 'floor'
-			@map[x][y] = Tiles::Floor
+			$map[x][y] = Tiles::Floor
 		elsif stat == 'player'
-			@map[x][y] = Tiles::Player
+			$map[x][y] = Tiles::Player
 		elsif stat == 'monster'
-			@map[x][y] = Tiles::Monster
+			$map[x][y] = Tiles::Monster
 		end
 	end
 
 	def draw
 		@height.times do |y|
 			@width.times do |x|
-				tile = @map[x][y]
+				tile = $map[x][y]
 				if tile == Tiles::Wall
 					if not visible?(x, y)
 						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_wall)

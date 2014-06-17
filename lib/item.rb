@@ -1,5 +1,5 @@
 class Item < GameObject
-	def initialize(window, map, x, y, object_name, blocks=false)
+	def initialize(window, x, y, object_name, blocks=false)
 		super
 
 		if object_name == 'healing potion'

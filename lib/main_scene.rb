@@ -6,8 +6,8 @@ class GameWindow < Gosu::Window
 
 		self.caption = "Ruby Roguelike"
 
-		@map_width = 100
-		@map_height = 100
+		$map_width = 100
+		$map_height = 100
 
 		@room_max_size = 10
 		@room_min_size = 6
@@ -15,7 +15,9 @@ class GameWindow < Gosu::Window
 
 		@msg_width = 500
 		@msg_height = 220
-		$game_msgs = []
+
+		$first_room = true
+		$player_x = $player_y = 0
 
 		$msg_black = Gosu::Color.new(100, 0, 0, 0)
 		$msg_white = Gosu::Color.new(100, 255, 255, 255)
@@ -27,6 +29,8 @@ class GameWindow < Gosu::Window
 		$monsters = []
 		$items = []
 		$bag = []
+		$leafs = []
+		$game_msgs = []
 
 		@inventory = Inventory.new(self)
 
@@ -82,11 +86,18 @@ class GameWindow < Gosu::Window
 
 		$game_state = 'playing'
 
-		$map = Map.new(@map_width, @map_height, self)
+		$map_obj = Map.new($map_width, $map_height, self)
+		$map = $map_obj.init_map
+		leaf = Leaf.new(0,0, $map_width, $map_height)
 
-		$map.make_map(@max_rooms, @room_min_size, @room_max_size, @map_width, @map_height)
+		#$map_obj.player_x = $map_obj.player_y = 0
 
-		$player = Player.new(self, $map, $map.player_x, $map.player_y, 'player', 20, 5, 0)
+		leaf.create_leafs
+		$map_obj.set_tile($player_x, $player_y, 'player')
+
+		#$map_obj.make_map(@max_rooms, @room_min_size, @room_max_size, $map_width, @map_height)
+
+		$player = Player.new(self, $player_x, $player_y, 'player', 20, 5, 0)
 
 		$camera_x = [[($player.x * 31 - 5) - $window_width/2, 0].max, $window_width * 31 - 5].min
 		$camera_y = [[($player.y * 31 - 5) - $window_height/2, 0].max, $window_height * 31 - 5].min
@@ -95,7 +106,7 @@ class GameWindow < Gosu::Window
 	def draw
 		if $game_state == 'playing'
 			translate(-$camera_x, -$camera_y) do
-				$map.draw
+				$map_obj.draw
 				$monsters.each do |i|
 					i.draw
 				end

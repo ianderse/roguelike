@@ -1,7 +1,7 @@
 require './lib/creature'
 
 class Monster < Creature
-	def initialize(window, map, x, y, object_name, blocks=false, hp, strength, defense)
+	def initialize(window, x, y, object_name, blocks=false, hp, strength, defense)
 		super
 		@x = x
 		@y = y
