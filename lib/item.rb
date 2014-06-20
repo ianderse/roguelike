@@ -5,6 +5,8 @@ class Item < GameObject
 			@healing_amount = 4
 			@image = $image_tiles[40]
 		end
+
+		@visible = false
 	end
 
 	def pick_up
@@ -38,7 +40,9 @@ class Item < GameObject
 	end
 
 	def draw
-		@image.draw(@x * 31 - 5, @y * 31 - 5, 1, 1, 1)
+		if visible == true
+			@image.draw(@x * 31 - 5, @y * 31 - 5, 1, 1, 1)
+		end
 	end
 end
 

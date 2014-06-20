@@ -1,6 +1,6 @@
 class GameObject
 
-	attr_accessor :x, :y, :name, :blocks, :window
+	attr_accessor :x, :y, :name, :blocks, :window, :visible
 
 	def initialize(window, x, y, object_name, blocks=false)
 		@window = window
@@ -8,6 +8,7 @@ class GameObject
 		@y = y
 		@name = object_name
 		@blocks = blocks
+		@visible = false
 	end
 
 	def move(x1, y1)

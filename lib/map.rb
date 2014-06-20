@@ -93,10 +93,20 @@ class Map
 	end
 
 	def light(x,y)
+		$items.each do |item|
+			if item.x == x && item.y == y
+				item.visible = true
+			end
+		end
+
+		$monsters.each do |monster|
+			if monster.x == x && monster.y == y
+				monster.visible = true
+			end
+		end
+			
 		set_tile(x,y, 'lit')
 	end
-
-
 
 	def blocked_sight?(x, y)
 		if $map[x][y] == Tiles::Wall
@@ -104,12 +114,6 @@ class Map
 		else
 			false
 		end
-	end
-
-	def visible?(x, y)
-		#test to see if map tile is visible or not
-		#if @map[x][y] == 
-		true
 	end
 
 	def attackable?(x, y)
