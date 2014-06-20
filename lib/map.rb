@@ -1,4 +1,7 @@
 require './lib/monster'
+require './lib/fov'
+
+include PermissiveFieldOfView
 
 class Map
 	attr_accessor :width, :height, :player_x, :player_y
@@ -11,11 +14,11 @@ class Map
 		@max_room_monsters = 3
 		@max_room_items = 2
 
-		@color_dark_wall = Gosu::Color.rgba(0, 0, 100, 255)
+		@color_dark_wall = Gosu::Color.rgba(255,0,0, 0)
 		@color_light_wall = Gosu::Color.rgba(130, 110, 50, 255)
-		@color_dark_ground = Gosu::Color.rgba(50,50,150, 255)
+		@color_dark_ground = Gosu::Color.rgba(255,0,0, 0)
 		@color_light_ground = Gosu::Color.rgba(200, 180, 50, 255)
-
+		@color_dark_monster = Gosu::Color.rgba(255,0,0, 0)
 
 		@wall = $image_tiles[18]
 		@floor = $image_tiles[19]
@@ -70,7 +73,7 @@ class Map
 	def init_map	
 		Array.new(@width) do |x|
 			Array.new(@height) do |y|
-				Tiles::Wall
+				Tiles::Unlit_Wall
 			end
 		end
 	end
@@ -80,14 +83,20 @@ class Map
 	end
 
 	def blocked?(x, y)
-		if $map[x][y] == Tiles::Wall
+		if $map[x][y] == Tiles::Wall || $map[x][y] == Tiles::Unlit_Wall
 			true
-		elsif $map[x][y] == Tiles::Monster
+		elsif $map[x][y] == Tiles::Monster || $map[x][y] == Tiles::Unlit_Monster
 			true
 		else
 			false
 		end
 	end
+
+	def light(x,y)
+		set_tile(x,y, 'lit')
+	end
+
+
 
 	def blocked_sight?(x, y)
 		if $map[x][y] == Tiles::Wall
@@ -104,7 +113,7 @@ class Map
 	end
 
 	def attackable?(x, y)
-		if $map[x][y] == Tiles::Monster
+		if $map[x][y] == Tiles::Monster || $map[x][y] == Tiles::Unlit_Monster
 			true
 		else
 			false
@@ -125,13 +134,21 @@ class Map
 
 	def set_tile(x, y, stat)
 		if stat == 'wall'
-			$map[x][y] = Tiles::Wall
+			$map[x][y] = Tiles::Unlit_Wall
 		elsif stat == 'floor'
-			$map[x][y] = Tiles::Floor
+			$map[x][y] = Tiles::Unlit_Floor
 		elsif stat == 'player'
 			$map[x][y] = Tiles::Player
 		elsif stat == 'monster'
-			$map[x][y] = Tiles::Monster
+			$map[x][y] = Tiles::Unlit_Monster
+		elsif stat == 'lit'
+			if $map[x][y] == Tiles::Unlit_Wall
+				$map[x][y] = Tiles::Wall
+			elsif $map[x][y] == Tiles::Unlit_Floor
+				$map[x][y] = Tiles::Floor
+			elsif $map[x][y] == Tiles::Unlit_Monster
+				$map[x][y] = Tiles::Monster
+			end
 		end
 	end
 
@@ -140,22 +157,20 @@ class Map
 			@width.times do |x|
 				tile = $map[x][y]
 				if tile == Tiles::Wall
-					if not visible?(x, y)
-						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_wall)
-					else
-						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_wall)
-					end
+					@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_light_wall)
+				elsif tile == Tiles::Unlit_Wall
+					@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_wall)
 				elsif tile == Tiles::Item
 					@floor.draw(x * 31, y * 31, 0, 1, 1)
+				elsif tile == Tiles::Unlit_Floor
+					@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_ground)
 				elsif tile == Tiles::Floor
-					if not visible?(x,y)
-						@floor.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1, color = @color_dark_ground)
-					else
-						@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
-					end
+					@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 				elsif tile == Tiles::Player
 					@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 					@player_tile.draw(x * 31 - 5, y * 31 - 5, 2, 1, 1, color = @color_light_ground)
+				elsif tile == Tiles::Unlit_Monster
+					@floor.draw(x * 31, y * 31, 0, 1, 1, color = @color_dark_ground)
 				elsif tile == Tiles::Monster
 				 	@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
 				end

@@ -17,6 +17,8 @@ class Player < Creature
 			@x = (@x + x1)
 			@y = (@y + y1)
 			$map_obj.set_tile(@x, @y, 'player')
+			$player_x = @x
+			$player_y = @y
 
 			$camera_x = [[($player.x * 31 - 5) - $window_width/2, 0].max, $window_width * 31 - 5].min
 			$camera_y = [[($player.y * 31 - 5) - $window_height/2, 0].max, $window_height * 31 - 5].min

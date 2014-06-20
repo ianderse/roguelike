@@ -90,12 +90,9 @@ class GameWindow < Gosu::Window
 		$map = $map_obj.init_map
 		leaf = Leaf.new(0,0, $map_width, $map_height)
 
-		#$map_obj.player_x = $map_obj.player_y = 0
-
 		leaf.create_leafs
 		$map_obj.set_tile($player_x, $player_y, 'player')
-
-		#$map_obj.make_map(@max_rooms, @room_min_size, @room_max_size, $map_width, @map_height)
+		$map_obj.do_fov($player_x, $player_y, 5)
 
 		$player = Player.new(self, $player_x, $player_y, 'player', 20, 5, 500)
 
@@ -132,12 +129,16 @@ class GameWindow < Gosu::Window
 					self.close
 				when Gosu::Button::KbLeft
 					$player.move_or_attack(-1,0)
+					$map_obj.do_fov($player_x, $player_y, 5)
 				when Gosu::Button::KbRight
 					$player.move_or_attack(1, 0)
+					$map_obj.do_fov($player_x, $player_y, 5)
 				when Gosu::Button::KbUp
 					$player.move_or_attack(0, -1)
+					$map_obj.do_fov($player_x, $player_y, 5)
 				when Gosu::Button::KbDown
 					$player.move_or_attack(0, 1)
+					$map_obj.do_fov($player_x, $player_y, 5)
 				when Gosu::Button::Kb5
 					$player.rest
 				when Gosu::Button::KbI

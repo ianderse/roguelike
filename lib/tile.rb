@@ -1,9 +1,12 @@
 module Tiles
 	Item = 4
 	Monster = 3
+	Unlit_Monster = -3
 	Player = 2
 	Wall = 1
+	Unlit_Wall = -2
 	Floor = 0
+	Unlit_Floor = -1
 end
 
 class Rect
@@ -18,14 +21,5 @@ class Rect
 
 	def center
 		@center_x = (self.x1 + self.x2) / 2, @center_y = (self.y1 + self.y2) / 2
-	end
-
-	def intersect(other)
-		if (self.x1 - 6 <= other.x2 and self.x2 >= other.x1 - 6 and
-			self.y1 - 6 <= other.y2 and self.y2 >= other.y2 - 6)
-			true
-		else
-			false
-		end
 	end
 end

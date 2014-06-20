@@ -112,7 +112,7 @@ class Leaf
 
 			a.each do |x|
 				b.each do |y|
-					$map[x][y] = Tiles::Floor
+					$map[x][y] = Tiles::Unlit_Floor
 				end
 			end
 			$map_obj.place_objects(@room)
@@ -212,30 +212,9 @@ class Leaf
 
 			(a..b).each do |x|
 				(a1..b1).each do |y|
-					$map[x][y] = Tiles::Floor
+					$map[x][y] = Tiles::Unlit_Floor
 				end
 			end
 		end
-	end
-
-	def draw
-		@h.times do |y|
-			@w.times do |x|
-				tile = $map[x][y]
-				if tile == Tiles::Wall		
-						@wall.draw(x * 31 - 5, y * 31 - 5, 0, 1, 1)
-				#elsif tile == Tiles::Item
-					#@floor.draw(x * 31, y * 31, 0, 1, 1)
-				elsif tile == Tiles::Floor
-						@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
-				# elsif tile == Tiles::Player
-				# 	@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
-				# 	@player_tile.draw(x * 31 - 5, y * 31 - 5, 2, 1, 1, color = @color_light_ground)
-				# elsif tile == Tiles::Monster
-				#  	@floor.draw(x * 31, y * 31, 0, 1, 1)#, color = @color_light_ground)
-				end
-			end
-		end
-
 	end
 end
