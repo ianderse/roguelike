@@ -6,6 +6,7 @@ class Monster < Creature
 		@x = x
 		@y = y
 		@window = window
+		@confused_num_turns = 5
 
 		if object_name == 'bat'
 			@image = $image_tiles[162]
@@ -21,11 +22,22 @@ class Monster < Creature
 	end
 
 	def take_turn
-		if distance_to($player) >= 2
-			move_towards($player.x, $player.y)
-		elsif $player.hp > 0
-			attack($player)
+		if ai == 'normal'
+			if distance_to($player) >= 2
+				move_towards($player.x, $player.y)
+			elsif $player.hp > 0
+				attack($player)
+			end
+		elsif ai == 'confused'
+			random_x = rand(-1..1)
+			random_y = rand(-1..1)
+			self.move(random_x, random_y)
+			@confused_num_turns -= 1
+				if @confused_num_turns <= 0
+					ai = 'normal'
+				end
 		end
+
 	end
 
 	def draw

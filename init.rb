@@ -1,6 +1,4 @@
-#IDEAS
-#tiny red health bar displayed above each creature if it is below 100%
-#reduce window size, increase map size, camera follows player (done)
+#TODO: switch use of Tiles to an actual floor/wall object?  Makes fov/collision potentially much less complicated.
 
 require 'gosu'
 require './lib/map'

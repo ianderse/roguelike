@@ -2,7 +2,7 @@ require './lib/gameobject.rb'
 include Math
 
 class Creature < GameObject
-	attr_accessor :hp, :strength, :defense, :max_hp
+	attr_accessor :hp, :strength, :defense, :max_hp, :ai
 
 	def initialize(window, x, y, object_name, blocks=false, max_hp, strength, defense)
 		super(window, x, y, object_name, blocks=false)
@@ -10,6 +10,7 @@ class Creature < GameObject
 		@hp = max_hp
 		@defense = defense
 		@strength = strength
+		@ai = 'normal'
 	end
 
 	def dead?
