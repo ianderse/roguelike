@@ -54,17 +54,35 @@ class Scroll < Item
 			@l_range = 5
 			@l_damage = 30
 		end
+		if name == 'confuse scroll'
+			@image = $image_tiles[49]
+			@c_range = 5
+		end
 	end
 
 		def use
 			if name == 'lightning scroll'
 				monster = $player.closest_monster(@l_range)
-
 				if monster == nil
-					@window.message("No enemy close enough to strike!")
+					@window.message("No enemy close enough to target!")
 				else
 					@window.message("A lightning bolt strikes the " + monster.name)
 					monster.take_damage(@l_damage)
+					$bag.delete(self)
+				end
+			end
+			elsif name == 'confuse scroll'
+				monster = $player.closest_monster(@c_range)
+				r_num = random(100)
+				if monster == nil
+					@window.message("No enemy close enough to target!")
+				else
+					if r_num < 75
+						@window.message(monster.name + " is confused!")
+						monster.ai = 'confused'
+					else
+						@window.message(monster.name + " resists!")
+					end
 					$bag.delete(self)
 				end
 			end

@@ -61,9 +61,11 @@ class Map
 				if choice > 70
 					item = Item.new(@window, x, y, 'healing potion', false)
 					$items << item
-				else
+				elsif choice > 40
 					item = Scroll.new(@window, x, y, 'lightning scroll', false)
 					$items << item
+				# elsif choice > 20
+				# 	item = Scroll.new(@window, x, y, 'confuse scroll', false)
 				end
 			end
 		end
