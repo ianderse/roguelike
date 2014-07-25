@@ -70,7 +70,6 @@ class Scroll < Item
 					monster.take_damage(@l_damage)
 					$bag.delete(self)
 				end
-			end
 			elsif name == 'confuse scroll'
 				monster = $player.closest_monster(@c_range)
 				r_num = random(100)
