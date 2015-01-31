@@ -13,9 +13,6 @@ class GameWindow < Gosu::Window
 		@room_min_size = 6
 		@max_rooms = 15
 
-		@msg_width = 500
-		@msg_height = 220
-
 		$first_room = true
 		$player_x = $player_y = 0
 
@@ -39,27 +36,7 @@ class GameWindow < Gosu::Window
 		$font = Gosu::Font.new(self, Gosu::default_font_name, 20)
 	end
 
-	def needs_cursor?; true; end
-
 	def update
-	end
-
-	def message(text, color = $msg_white)
-		$game_msgs.each do |msg|
-			if $game_msgs.length > (@msg_height / 22).to_i
-				$game_msgs.delete(msg)
-			end
-		end
-		$game_msgs << text
-	end
-
-	def draw_messages
-		self.draw_quad(0, 800, $msg_black, @msg_width, 800, $msg_black, 0, 800 + @msg_height, $msg_black, @msg_width, 800 + @msg_height, $msg_black, 2)
-		y = 800
-		$game_msgs.each do |msg|
-			$font.draw(msg, 5, y, 3, 1.0, 1.0, $msg_white)
-			y += 20
-		end
 	end
 
 	def draw_hp_bar(x, y, w, h, color1, color2, z=2, object)
@@ -75,14 +52,8 @@ class GameWindow < Gosu::Window
 	end
 
 	def reset_game
-
-		$monsters.reject! do |monster|
-			true
-		end
-
-		$items.reject! do |item|
-			true
-		end
+		$monsters.reject! {|monster| true }
+		$items.reject! {|item| true}
 
 		$game_state = 'playing'
 
@@ -113,7 +84,7 @@ class GameWindow < Gosu::Window
 			end
 			draw_hp_bar($window_width/2 - 50, $window_height - 20, 200, 20, $white, $red, 2, $player)
 			$font.draw("HP: ", $window_width/2 - 100, $window_height - 25, 2, 1.25, 1.25, $red)
-			draw_messages
+			Messager.draw_messages(self)
 		elsif $game_state == 'inventory'
 			@inventory.draw
 		elsif $game_state == 'dead'

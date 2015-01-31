@@ -11,11 +11,11 @@ class Item < GameObject
 
 	def pick_up
 		if $bag.length >= 26
-			@window.message("Inventory is full!")
+			Messager.message("Inventory is full!")
 		else
 			$bag << self
 			$items.delete(self)
-			@window.message("You picked up a " + self.name)
+			Messager.message("You picked up a " + self.name)
 		end
 
 		$monsters.each do |monster|
@@ -26,15 +26,15 @@ class Item < GameObject
 	def use
 		if name == 'healing potion'
 			if $player.hp == $player.max_hp
-				@window.message("Already at full health!")
+				Messager.message("Already at full health!")
 			elsif $player.hp + @healing_amount < $player.max_hp
 				$player.hp += @healing_amount
 				$bag.delete(self)
-				@window.message("Used a " + name)
+				Messager.message("Used a " + name)
 			else
 				$player.hp = $player.max_hp
 				$bag.delete(self)
-				@window.message("Used a " + name)
+				Messager.message("Used a " + name)
 			end
 		end
 	end
@@ -64,9 +64,9 @@ class Scroll < Item
 			if name == 'lightning scroll'
 				monster = $player.closest_monster(@l_range)
 				if monster == nil
-					@window.message("No enemy close enough to target!")
+					Messager.message("No enemy close enough to target!")
 				else
-					@window.message("A lightning bolt strikes the " + monster.name)
+					Messager.message("A lightning bolt strikes the " + monster.name)
 					monster.take_damage(@l_damage)
 					$bag.delete(self)
 				end
@@ -74,13 +74,13 @@ class Scroll < Item
 				monster = $player.closest_monster(@c_range)
 				r_num = random(100)
 				if monster == nil
-					@window.message("No enemy close enough to target!")
+					Messager.message("No enemy close enough to target!")
 				else
 					if r_num < 75
-						@window.message(monster.name + " is confused!")
+						Messager.message(monster.name + " is confused!")
 						monster.ai = 'confused'
 					else
-						@window.message(monster.name + " resists!")
+						Messager.message(monster.name + " resists!")
 					end
 					$bag.delete(self)
 				end

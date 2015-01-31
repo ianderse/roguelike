@@ -32,12 +32,12 @@ class Creature < GameObject
 		end
 	end
 
-	def take_damage(damage)	
+	def take_damage(damage)
 		if damage > 0
 			self.hp -= damage
 		end
 		if dead?
-			@window.message(name + ' is dead!')
+			Messager.message(name + ' is dead!')
 		end
 	end
 
@@ -45,10 +45,10 @@ class Creature < GameObject
 		damage = (rand(5)+ @strength) - (rand(3) + target.defense)
 
 		if damage > 0
-			@window.message(self.name + ' attacks ' + target.name + ' for ' + damage.to_s + ' damage')
+			Messager.message(self.name + ' attacks ' + target.name + ' for ' + damage.to_s + ' damage')
 			target.take_damage(damage)
 		else
-			@window.message(name + ' deals no damage!')
+			Messager.message(name + ' deals no damage!')
 		end
 	end
 
@@ -62,12 +62,12 @@ class Creature < GameObject
 	def move(x,y)
 		@x2 = (@x + x)
 		@y2 = (@y + y)
-		
+
 		if $map_obj.blocked?(@x2, @y2) == false
 			$map_obj.set_tile(@x, @y, 'floor')
 			@x = (@x + x)
 			@y = (@y + y)
-			$map_obj.set_tile(@x, @y, 'monster') 
+			$map_obj.set_tile(@x, @y, 'monster')
 		end
 	end
 

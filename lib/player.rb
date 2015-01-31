@@ -8,7 +8,7 @@ class Player < Creature
 	def move_or_attack(x1, y1)
 		@x2 = (x + x1)
 		@y2 = (y + y1)
-		
+
 		if $map_obj.blocked?(@x2, @y2) && $map_obj.attackable?(@x2, @y2)
 			target = $map_obj.whats_there?(@x2, @y2)
 			attack(target)
@@ -39,7 +39,7 @@ class Player < Creature
 				closest_dist = dist
 			end
 		end
-		return closest_enemy 
+		return closest_enemy
 	end
 
 	def rest
@@ -51,6 +51,6 @@ class Player < Creature
 			monster.take_turn
 		end
 
-		@window.message("Player is resting")
+		Messager.message("Player is resting")
 	end
 end
