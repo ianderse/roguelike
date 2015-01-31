@@ -8,5 +8,6 @@ require './lib/main_scene'
 require './lib/inventory'
 require './lib/item'
 require './lib/leaf'
+require './lib/button_handler'
 
 window = GameWindow.new.show

@@ -63,9 +63,9 @@ class GameWindow < Gosu::Window
 	end
 
 	def draw_hp_bar(x, y, w, h, color1, color2, z=2, object)
-		self.draw_quad(x, y, $white, x + w, y, $white, x, y + h, $white, x + w, y + h, $white, z)    
+		self.draw_quad(x, y, $white, x + w, y, $white, x, y + h, $white, x + w, y + h, $white, z)
 		self.draw_quad(x + 1, y + 1, $black, x + w - 1, y + 1, $black, x + 1, y + h - 1, $black, x + w - 1, y + h - 1, $black, z)
-		
+
 		hp = object.hp
 		max_hp = object.max_hp
 
@@ -142,21 +142,13 @@ class GameWindow < Gosu::Window
 				when Gosu::Button::Kb5
 					$player.rest
 				when Gosu::Button::KbI
-					$game_state = @inventory.toggle
+					$game_state = ButtonHandler.toggle
 				when Gosu::Button::KbG
 					$items.each do |i|
 						if i.x == $player.x && i.y == $player.y
 							i.pick_up
 						end
 					end
-				when Gosu::MsLeft #need to figure out how to convert map x to mouse_x
-					# $monsters.each do |monster|
-					# 	if Gosu::distance(monster.x * 12.8, -monster.y * 10.2, mouse_x, mouse_y) < 10
-					# 		puts monster.x * 12.8
-					# 		puts mouse_x
-					# 		message(monster.name)
-					# 	end
-					# end
 			end
 		elsif $game_state == 'dead'
 			if id == Gosu::Button::KbSpace
@@ -165,7 +157,7 @@ class GameWindow < Gosu::Window
 				self.close
 			end
 		elsif $game_state == 'inventory'
-			@inventory.button_handle(id)
+			ButtonHandler.button_handle(id)
 		end
 	end
 end
