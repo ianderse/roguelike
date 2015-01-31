@@ -123,41 +123,6 @@ class GameWindow < Gosu::Window
 	end
 
 	def button_down(id)
-		if $game_state == 'playing'
-			case id
-				when Gosu::Button::KbEscape
-					self.close
-				when Gosu::Button::KbLeft
-					$player.move_or_attack(-1,0)
-					$map_obj.do_fov($player_x, $player_y, 5)
-				when Gosu::Button::KbRight
-					$player.move_or_attack(1, 0)
-					$map_obj.do_fov($player_x, $player_y, 5)
-				when Gosu::Button::KbUp
-					$player.move_or_attack(0, -1)
-					$map_obj.do_fov($player_x, $player_y, 5)
-				when Gosu::Button::KbDown
-					$player.move_or_attack(0, 1)
-					$map_obj.do_fov($player_x, $player_y, 5)
-				when Gosu::Button::Kb5
-					$player.rest
-				when Gosu::Button::KbI
-					$game_state = ButtonHandler.toggle
-				when Gosu::Button::KbG
-					$items.each do |i|
-						if i.x == $player.x && i.y == $player.y
-							i.pick_up
-						end
-					end
-			end
-		elsif $game_state == 'dead'
-			if id == Gosu::Button::KbSpace
-				reset_game
-			elsif id == Gosu::Button::KbEscape
-				self.close
-			end
-		elsif $game_state == 'inventory'
-			ButtonHandler.button_handle(id)
-		end
+    ButtonHandler.button_down(id, self)
 	end
 end
